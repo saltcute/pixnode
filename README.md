@@ -14,7 +14,7 @@ Require the module in your code
 const { pixNode } = require('pixnode');
 ```
 
-# Documentation
+# Documentation (to be updated)
 
 ## Authentication
 
@@ -28,27 +28,19 @@ The `res` object in callback.
 {
     access_token: '_Wl0###################WbZy5LdUr-o8NZkzbi6o',
     refresh_token: 'P#########################################8',
-    // Keep this secret! Refresh token doesn't appear to change
-    expire_time: 1647916586,
-    user: {
-        profile_image_urls: {
-            px_16x16: 'https://i.pximg.net/####',
-            px_50x50: 'https://i.pximg.net/####',
-            px_170x170: 'https://i.pximg.net/####'
-        },
-        id: '26####96',
-        name: 'po########t0',
-        account: 'po########t0',
-        mail_address: '97#######@qq.com',
-        is_premium: true,
-        // true for premium user
-        // false for normal user
-        x_restrict: 0,
-        // 0 for no adult content
-        // 1 for R-18 allowed
-        // 2 for R-18G allowed
-        is_mail_authorized: true,
-        require_policy_agreement: false
+                                    // Keep this secret! Refresh token doesn't appear to change when session is refreshed or created
+    expire_time: 1648021956,        //UNIX timestamp indicating when the access token will expire
+    user: userInfomation {
+        uid: '26861696',            //User ID
+        name: 'potatopotat0',       //Nickname
+        account: 'potatopotat0',    //Acount name
+        mail: '971327682@qq.com',   //Email address for the user
+        is_premium: true,           // true for premium user
+                                    // false for normal user
+        x_restrict: 0,              // 0 for no adult content
+                                    // 1 for R-18 allowed
+                                    // 2 for R-18G allowed
+        language: 'English'
     }
 }
 ```
