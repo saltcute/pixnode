@@ -19,7 +19,7 @@
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/potatopotat0/pixnode.git"
+    "url": "git+https://github.com/potatopotat0/pix-node.git"
   },
   "keywords": [
     "Pixiv",
@@ -28,7 +28,7 @@
     "pixiv"
   ],
   "bugs": {
-    "url": "https://github.com/potatopotat0/pixnode/issues"
+    "url": "https://github.com/potatopotat0/pix-node/issues"
   },
-  "homepage": "https://github.com/potatopotat0/pixnode#readme"
+  "homepage": "https://github.com/potatopotat0/pix-node#readme"
 }

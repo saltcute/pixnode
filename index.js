@@ -90,15 +90,15 @@ var types;
         }
     }
     types.loginCredential = loginCredential;
-    class userInfomation {
+    class userInformation {
         constructor(_uid, _name, _account) {
             this.uid = _uid;
             this.name = _name;
             this.account = _account;
         }
     }
-    types.userInfomation = userInfomation;
-    class accountInfomation extends userInfomation {
+    types.userInformation = userInformation;
+    class accountInformation extends userInformation {
         constructor(_uid, _name, _account, _mail, _is_premium, _x_restrict, _language) {
             super(_uid, _name, _account);
             this.mail = _mail;
@@ -107,10 +107,7 @@ var types;
             this.language = _language;
         }
     }
-    types.accountInfomation = accountInfomation;
-    class profileInfomation extends userInfomation {
-    }
-    types.profileInfomation = profileInfomation;
+    types.accountInformation = accountInformation;
     class tag {
         constructor(_name, _translated_name) {
             this.name = _name;
@@ -163,20 +160,20 @@ var common;
     common.tokenBase64 = tokenBase64;
     /**
      * Convert illustration to its coresponding type
-     * @param val Object contains illustration infomation from Pixiv responses
+     * @param val Object contains illustration information from Pixiv responses
      * @returns Illustration object
      */
     function illustToTypes(val) {
-        return new types.illustration(val.id, val.title, val.type, val.caption, val.restrict, new types.userInfomation(val.user.id, val.user.name, val.user.account), val.tags, val.create_date, val.page_count, val.sanity_level, val.x_restrict, val.is_bookmarked);
+        return new types.illustration(val.id, val.title, val.type, val.caption, val.restrict, new types.userInformation(val.user.id, val.user.name, val.user.account), val.tags, val.create_date, val.page_count, val.sanity_level, val.x_restrict, val.is_bookmarked);
     }
     common.illustToTypes = illustToTypes;
     /**
      * Convert comment to its coresponding type
-     * @param val Object contains comment infomation from Pixiv responses
+     * @param val Object contains comment information from Pixiv responses
      * @returns comment object
      */
     function commentToTypes(val, hasParentComment) {
-        return new types.comment(val.id, val.comment, val.date, new types.userInfomation(val.user.id, val.user.name, val.user.account), hasParentComment == "true" ? commentToTypes(val.parent_comment, "false") : undefined);
+        return new types.comment(val.id, val.comment, val.date, new types.userInformation(val.user.id, val.user.name, val.user.account), hasParentComment == "true" ? commentToTypes(val.parent_comment, "false") : undefined);
     }
     common.commentToTypes = commentToTypes;
     function tagToTypes(val) {
@@ -234,7 +231,7 @@ var authenticate;
             },
             success: (data) => {
                 let tmp = JSON.parse(data);
-                let res = new types.loginCredential(tmp.access_token, tmp.refresh_token, tmp.expires_in + Math.floor(Date.now() / 1000), new types.accountInfomation(tmp.user.id, tmp.user.name, tmp.user.account, tmp.user.mail, tmp.user.is_premium, tmp.user.x_restrict, tmp.user.language));
+                let res = new types.loginCredential(tmp.access_token, tmp.refresh_token, tmp.expires_in + Math.floor(Date.now() / 1000), new types.accountInformation(tmp.user.id, tmp.user.name, tmp.user.account, tmp.user.mail, tmp.user.is_premium, tmp.user.x_restrict, tmp.user.language));
                 if (callback !== undefined)
                     callback(res);
             }
@@ -265,7 +262,7 @@ var authenticate;
             },
             success: (data) => {
                 let tmp = JSON.parse(data);
-                let res = new types.loginCredential(tmp.access_token, tmp.refresh_token, tmp.expires_in + Math.floor(Date.now() / 1000), new types.accountInfomation(tmp.user.id, tmp.user.name, tmp.user.account, tmp.user.mail_address, tmp.user.is_premium, tmp.user.x_restrict, "English"));
+                let res = new types.loginCredential(tmp.access_token, tmp.refresh_token, tmp.expires_in + Math.floor(Date.now() / 1000), new types.accountInformation(tmp.user.id, tmp.user.name, tmp.user.account, tmp.user.mail_address, tmp.user.is_premium, tmp.user.x_restrict, "English"));
                 if (callback !== undefined)
                     callback(res);
             }
@@ -277,13 +274,13 @@ var authenticate;
     authenticate.refresh = refresh;
 })(authenticate = exports.authenticate || (exports.authenticate = {}));
 /**
- * Methods to fetch infomation (ranking, illutration info, etc.)
+ * Methods to fetch information (ranking, illutration info, etc.)
  */
 var fetch;
 (function (fetch) {
     /**
      * Get most popular illustration in certain day, month, year, etc.
-     * @param loginInfo Contains login credential and account infomation
+     * @param loginInfo Contains login credential and account information
      * @param mode (optional) Ranking mode
      * @param date (optional) Ranking date
      * @param offset (optional) Illustration ranking offset (starting point)
@@ -320,8 +317,8 @@ var fetch;
     }
     fetch.illustrationRanking = illustrationRanking;
     /**
-     * Search for illustration with the specified infomation
-     * @param loginInfo Contains login credential and account infomation
+     * Search for illustration with the specified information
+     * @param loginInfo Contains login credential and account information
      * @param keyword Search keyword
      * @param searchTarget (optional) Keyword matching rule
      * @param sort (optional) Sort criteria
@@ -363,7 +360,7 @@ var fetch;
     ;
     /**
      * Get detail for a illustration of the specified ID
-     * @param loginInfo Contains login credential and account infomation
+     * @param loginInfo Contains login credential and account information
      * @param illustID Illustration ID
      * @param callback (optional) Callback function
      */
@@ -393,7 +390,7 @@ var fetch;
     fetch.illustration = illustration;
     /**
      * Get comments of illustration of specified ID
-     * @param loginInfo Contains login credential and account infomation
+     * @param loginInfo Contains login credential and account information
      * @param illustID Illustration ID
      * @param offset (optional) Comment order offset (starting point)
      * @param callback (optional) Callback function
@@ -429,7 +426,7 @@ var fetch;
     fetch.illustrationComments = illustrationComments;
     /**
      * Get related illustration of the illustration of the specified ID
-     * @param loginInfo Contains login credentials and account infomation
+     * @param loginInfo Contains login credentials and account information
      * @param illustID Illustration ID
      * @param offset (optional) Illustration order offset (starting point)
      * @param callback (optional) Callback function
@@ -464,7 +461,7 @@ var fetch;
     fetch.relatedIllustration = relatedIllustration;
     /**
      * Get new illustrations form following creators
-     * @param loginInfo Contains login credentials and account infomation
+     * @param loginInfo Contains login credentials and account information
      * @param visibility (Default: Public) Shows illustrations from publicly or privately followed creators
      * @param callback (optional) Callback function
      */
@@ -498,7 +495,7 @@ var fetch;
     fetch.illustrationFromFollowingCreators = illustrationFromFollowingCreators;
     /**
      * Get recommended illustration
-     * @param loginInfo Contains login credentials and account infomation
+     * @param loginInfo Contains login credentials and account information
      * @param contentType (optional) Type of content (illustration, manga, etc.)
      * @param includeRankingIllustration (Defualt: false) Include top 10 illustration of the day in response
      * @param maxBookmarkIDForRecommend (optional)
@@ -544,7 +541,7 @@ var fetch;
     fetch.recommendedIllustration = recommendedIllustration;
     /**
      * Get current trending tags
-     * @param loginInfo Contains login credentials and account infomation
+     * @param loginInfo Contains login credentials and account information
      * @param callback (optional) Callback function
      */
     function trendingTags(loginInfo, callback) {
@@ -579,7 +576,7 @@ var fetch;
     fetch.trendingTags = trendingTags;
     /**
      * Check if a specified illustration is bookmarked by current user
-     * @param loginInfo Contains login credentials and account infomation
+     * @param loginInfo Contains login credentials and account information
      * @param illustID ID of the specified illustration
      * @param callback (optional) Callback function
      */
@@ -618,7 +615,7 @@ var fetch;
     fetch.bookmark = bookmark;
     /**
      * Get detail of a user
-     * @param loginInfo Contains login credentials and account infomation
+     * @param loginInfo Contains login credentials and account information
      * @param userID ID of the user to be looked up
      * @param callback (optional) Callback function
      */
@@ -648,7 +645,7 @@ var fetch;
     fetch.user = user;
     /**
      * Get illustrations published by the specified user
-     * @param loginInfo Contains login credentials and account infomation
+     * @param loginInfo Contains login credentials and account information
      * @param userID User ID
      * @param contentType (optional) Content type
      * @param offset (optional) Response order offset
@@ -686,7 +683,7 @@ var fetch;
     fetch.userIllustrations = userIllustrations;
     /**
      * Get bookmarked illustrations of the specified user
-     * @param loginInfo Contains login credentials and account infomation
+     * @param loginInfo Contains login credentials and account information
      * @param userID ID of the specified user
      * @param visibility (Default: PUBLIC) Visibility of bookmarks
      * @param maxBookmarkID (optional) Max ID number of bookmarks in response
@@ -725,7 +722,7 @@ var fetch;
     fetch.userBookmarkIllustration = userBookmarkIllustration;
     /**
      * Get bookmark tags of the specified user
-     * @param loginInfo Contains login credentials and account infomation
+     * @param loginInfo Contains login credentials and account information
      * @param userID ID of the specified user
      * @param visibility (Default: Public) Visibility of bookmarks
      * @param offset (optional) Bookmark tags order number offset
@@ -758,7 +755,7 @@ var fetch;
     fetch.userBookmarkTags = userBookmarkTags;
     /**
      * Get an list of user that is followed by the current user
-     * @param loginInfo Contains login credentials and account infomation
+     * @param loginInfo Contains login credentials and account information
      * @param userID ID of the specified user
      * @param visibility (Default: Public) Visibility of following user
      * @param offset (optional) User order number offset (starting point)
@@ -783,7 +780,7 @@ var fetch;
                 let res = new Array();
                 for (let val of tmp) {
                     res.push({
-                        user: new types.userInfomation(val.user.id, val.user.name, val.user.account),
+                        user: new types.userInformation(val.user.id, val.user.name, val.user.account),
                         illust: (() => {
                             let rt = new Array();
                             for (let value of val.illusts) {
@@ -804,7 +801,7 @@ var fetch;
     fetch.followingUser = followingUser;
     /**
     * Get an list of user that is following the current user
-    * @param loginInfo Contains login credentials and account infomation
+    * @param loginInfo Contains login credentials and account information
     * @param userID ID of the specified user
     * @param offset (optional) User order number offset (starting point)
     * @param callback (optional) Callback function
@@ -827,7 +824,7 @@ var fetch;
                 let res = new Array();
                 for (let val of tmp.user_previews) {
                     res.push({
-                        user: new types.userInfomation(val.user.id, val.user.name, val.user.account),
+                        user: new types.userInformation(val.user.id, val.user.name, val.user.account),
                         illust: (() => {
                             let rt = new Array();
                             for (let value of val.illusts) {
@@ -851,7 +848,7 @@ var modify;
 (function (modify) {
     /**
      * Add an illustration to bookmark
-     * @param loginInfo Contains login credentials and account infomation
+     * @param loginInfo Contains login credentials and account information
      * @param illustID ID of the illustration to be added to bookmark
      * @param visibility (Default: PUBLIC) Visibility of the specified illustration in bookmark
      * @param tags (optional) Bookmark tags of the specified illustration
@@ -885,7 +882,7 @@ var modify;
     modify.addBookmark = addBookmark;
     /**
      * Remove an illustration from bookmark
-     * @param loginInfo Contains login credentials and account infomation
+     * @param loginInfo Contains login credentials and account information
      * @param illustID ID of the illustration to be deleted
      * @param callback (optional) Callback function
      */

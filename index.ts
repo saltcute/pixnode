@@ -83,7 +83,7 @@ namespace types {
             _access_token: string,
             _refresh_token: string,
             _expire_time: number,
-            _user: accountInfomation
+            _user: accountInformation
         ) {
             this.access_token = _access_token;
             this.refresh_token = _refresh_token;
@@ -93,9 +93,9 @@ namespace types {
         access_token: string;
         refresh_token: string;
         expire_time: number;
-        user: accountInfomation;
+        user: accountInformation;
     }
-    export class userInfomation {
+    export class userInformation {
         constructor(
             _uid: number,
             _name: string,
@@ -109,7 +109,7 @@ namespace types {
         name: string;
         account: string;
     }
-    export class accountInfomation extends userInfomation {
+    export class accountInformation extends userInformation {
         constructor(
             _uid: number,
             _name: string,
@@ -130,9 +130,6 @@ namespace types {
         x_restrict: number;
         language: string;
     }
-    export class profileInfomation extends userInfomation {
-
-    }
     export class tag {
         constructor(
             _name: string,
@@ -151,7 +148,7 @@ namespace types {
             _type: string,
             _caption: string,
             _restrict: number,
-            _user: userInfomation,
+            _user: userInformation,
             _tags: Array<tag>,
             _create_date: string,
             _page_count: number,
@@ -177,7 +174,7 @@ namespace types {
         type: string;
         caption: string;
         restrict: number;
-        user: userInfomation;
+        user: userInformation;
         tags: Array<tag>;
         create_date: string;
         page_count: number;
@@ -190,7 +187,7 @@ namespace types {
             _id: number,
             _comment: string,
             _date: string,
-            _user: userInfomation,
+            _user: userInformation,
             _parent_comment?: comment
         ) {
             this.id = _id;
@@ -202,7 +199,7 @@ namespace types {
         id: number;
         comment: string;
         date: string;
-        user: userInfomation;
+        user: userInformation;
         parent_comment?: comment;
     }
 }
@@ -222,7 +219,7 @@ namespace common {
     }
     /**
      * Convert illustration to its coresponding type
-     * @param val Object contains illustration infomation from Pixiv responses
+     * @param val Object contains illustration information from Pixiv responses
      * @returns Illustration object
      */
     export function illustToTypes(val: any): types.illustration {
@@ -232,7 +229,7 @@ namespace common {
             val.type,
             val.caption,
             val.restrict,
-            new types.userInfomation(
+            new types.userInformation(
                 val.user.id,
                 val.user.name,
                 val.user.account
@@ -247,7 +244,7 @@ namespace common {
     }
     /**
      * Convert comment to its coresponding type
-     * @param val Object contains comment infomation from Pixiv responses
+     * @param val Object contains comment information from Pixiv responses
      * @returns comment object
      */
     export function commentToTypes(
@@ -258,7 +255,7 @@ namespace common {
             val.id,
             val.comment,
             val.date,
-            new types.userInfomation(
+            new types.userInformation(
                 val.user.id,
                 val.user.name,
                 val.user.account
@@ -326,7 +323,7 @@ export namespace authenticate {
                     tmp.access_token,
                     tmp.refresh_token,
                     tmp.expires_in + Math.floor(Date.now() / 1000),
-                    new types.accountInfomation(
+                    new types.accountInformation(
                         tmp.user.id,
                         tmp.user.name,
                         tmp.user.account,
@@ -370,7 +367,7 @@ export namespace authenticate {
                     tmp.access_token,
                     tmp.refresh_token,
                     tmp.expires_in + Math.floor(Date.now() / 1000),
-                    new types.accountInfomation(
+                    new types.accountInformation(
                         tmp.user.id,
                         tmp.user.name,
                         tmp.user.account,
@@ -389,12 +386,12 @@ export namespace authenticate {
 }
 
 /**
- * Methods to fetch infomation (ranking, illutration info, etc.)
+ * Methods to fetch information (ranking, illutration info, etc.)
  */
 export namespace fetch {
     /**
      * Get most popular illustration in certain day, month, year, etc.
-     * @param loginInfo Contains login credential and account infomation 
+     * @param loginInfo Contains login credential and account information 
      * @param mode (optional) Ranking mode
      * @param date (optional) Ranking date
      * @param offset (optional) Illustration ranking offset (starting point)
@@ -436,8 +433,8 @@ export namespace fetch {
         });
     }
     /**
-     * Search for illustration with the specified infomation
-     * @param loginInfo Contains login credential and account infomation
+     * Search for illustration with the specified information
+     * @param loginInfo Contains login credential and account information
      * @param keyword Search keyword
      * @param searchTarget (optional) Keyword matching rule
      * @param sort (optional) Sort criteria
@@ -485,7 +482,7 @@ export namespace fetch {
     };
     /**
      * Get detail for a illustration of the specified ID
-     * @param loginInfo Contains login credential and account infomation
+     * @param loginInfo Contains login credential and account information
      * @param illustID Illustration ID
      * @param callback (optional) Callback function
      */
@@ -516,7 +513,7 @@ export namespace fetch {
     }
     /**
      * Get comments of illustration of specified ID
-     * @param loginInfo Contains login credential and account infomation
+     * @param loginInfo Contains login credential and account information
      * @param illustID Illustration ID
      * @param offset (optional) Comment order offset (starting point)
      * @param callback (optional) Callback function
@@ -557,7 +554,7 @@ export namespace fetch {
     }
     /**
      * Get related illustration of the illustration of the specified ID
-     * @param loginInfo Contains login credentials and account infomation
+     * @param loginInfo Contains login credentials and account information
      * @param illustID Illustration ID
      * @param offset (optional) Illustration order offset (starting point)
      * @param callback (optional) Callback function
@@ -596,7 +593,7 @@ export namespace fetch {
     }
     /**
      * Get new illustrations form following creators
-     * @param loginInfo Contains login credentials and account infomation
+     * @param loginInfo Contains login credentials and account information
      * @param visibility (Default: Public) Shows illustrations from publicly or privately followed creators
      * @param callback (optional) Callback function
      */
@@ -634,7 +631,7 @@ export namespace fetch {
     }
     /**
      * Get recommended illustration
-     * @param loginInfo Contains login credentials and account infomation
+     * @param loginInfo Contains login credentials and account information
      * @param contentType (optional) Type of content (illustration, manga, etc.)
      * @param includeRankingIllustration (Defualt: false) Include top 10 illustration of the day in response
      * @param maxBookmarkIDForRecommend (optional) 
@@ -689,7 +686,7 @@ export namespace fetch {
     }
     /**
      * Get current trending tags
-     * @param loginInfo Contains login credentials and account infomation
+     * @param loginInfo Contains login credentials and account information
      * @param callback (optional) Callback function
      */
     export function trendingTags(
@@ -727,7 +724,7 @@ export namespace fetch {
     }
     /**
      * Check if a specified illustration is bookmarked by current user
-     * @param loginInfo Contains login credentials and account infomation
+     * @param loginInfo Contains login credentials and account information
      * @param illustID ID of the specified illustration
      * @param callback (optional) Callback function
      */
@@ -767,7 +764,7 @@ export namespace fetch {
     }
     /**
      * Get detail of a user
-     * @param loginInfo Contains login credentials and account infomation
+     * @param loginInfo Contains login credentials and account information
      * @param userID ID of the user to be looked up
      * @param callback (optional) Callback function
      */
@@ -799,7 +796,7 @@ export namespace fetch {
     }
     /**
      * Get illustrations published by the specified user
-     * @param loginInfo Contains login credentials and account infomation
+     * @param loginInfo Contains login credentials and account information
      * @param userID User ID
      * @param contentType (optional) Content type
      * @param offset (optional) Response order offset
@@ -842,7 +839,7 @@ export namespace fetch {
     }
     /**
      * Get bookmarked illustrations of the specified user
-     * @param loginInfo Contains login credentials and account infomation
+     * @param loginInfo Contains login credentials and account information
      * @param userID ID of the specified user
      * @param visibility (Default: PUBLIC) Visibility of bookmarks
      * @param maxBookmarkID (optional) Max ID number of bookmarks in response
@@ -887,7 +884,7 @@ export namespace fetch {
     }
     /**
      * Get bookmark tags of the specified user
-     * @param loginInfo Contains login credentials and account infomation
+     * @param loginInfo Contains login credentials and account information
      * @param userID ID of the specified user
      * @param visibility (Default: Public) Visibility of bookmarks
      * @param offset (optional) Bookmark tags order number offset
@@ -926,7 +923,7 @@ export namespace fetch {
     }
     /**
      * Get an list of user that is followed by the current user
-     * @param loginInfo Contains login credentials and account infomation
+     * @param loginInfo Contains login credentials and account information
      * @param userID ID of the specified user
      * @param visibility (Default: Public) Visibility of following user
      * @param offset (optional) User order number offset (starting point)
@@ -959,7 +956,7 @@ export namespace fetch {
                 let res = new Array();
                 for(let val of tmp) {
                     res.push({
-                        user: new types.userInfomation(
+                        user: new types.userInformation(
                             val.user.id,
                             val.user.name,
                             val.user.account
@@ -981,7 +978,7 @@ export namespace fetch {
     }
      /**
      * Get an list of user that is following the current user
-     * @param loginInfo Contains login credentials and account infomation
+     * @param loginInfo Contains login credentials and account information
      * @param userID ID of the specified user
      * @param offset (optional) User order number offset (starting point)
      * @param callback (optional) Callback function
@@ -1010,7 +1007,7 @@ export namespace fetch {
                 let res = new Array();
                 for(let val of tmp.user_previews) {
                     res.push({
-                        user: new types.userInfomation(
+                        user: new types.userInformation(
                                 val.user.id,
                                 val.user.name,
                                 val.user.account
@@ -1034,7 +1031,7 @@ export namespace fetch {
 export namespace modify {
     /**
      * Add an illustration to bookmark
-     * @param loginInfo Contains login credentials and account infomation
+     * @param loginInfo Contains login credentials and account information
      * @param illustID ID of the illustration to be added to bookmark
      * @param visibility (Default: PUBLIC) Visibility of the specified illustration in bookmark
      * @param tags (optional) Bookmark tags of the specified illustration
@@ -1073,7 +1070,7 @@ export namespace modify {
     }
     /**
      * Remove an illustration from bookmark
-     * @param loginInfo Contains login credentials and account infomation
+     * @param loginInfo Contains login credentials and account information
      * @param illustID ID of the illustration to be deleted
      * @param callback (optional) Callback function
      */
