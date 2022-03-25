@@ -1,7 +1,5 @@
 import crypto = require('crypto');
 import base64url from 'base64url';
-import { callbackify } from 'util';
-import { off } from 'process';
 const readlineSync = require('readline-sync');
 const najax = require('najax');
 
@@ -234,7 +232,13 @@ namespace common {
                 val.user.name,
                 val.user.account
             ),
-            val.tags,
+            (() => {
+                let rt = new Array<types.tag>();
+                for(let value of val.tags) {
+                    rt.push(tagToTypes(value));
+                }
+                return rt;
+            })(),
             val.create_date,
             val.page_count,
             val.sanity_level,
