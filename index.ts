@@ -1,6 +1,6 @@
 import crypto = require('crypto');
 import base64url from 'base64url';
-const readlineSync = require('readline-sync');
+import readlineSync from 'readline-sync';
 const najax = require('najax');
 
 export namespace enums {
@@ -449,10 +449,10 @@ export namespace fetch {
     export function searchForIllustration(
         loginInfo: types.loginCredential,
         keyword: string,
-        { searchTarget = "TAGS_PARTIAL", sort = "DATE_DESC", duration, offset }: {
+        { searchTarget = "TAGS_PARTIAL", sort = "DATE_DESC", duration = "LAST_DAY", offset }: {
             searchTarget: keyof typeof enums.SEARCH_TARGET,
             sort: keyof typeof enums.SORT,
-            duration?: string,
+            duration?: keyof typeof enums.DURATION,
             offset?: number
         },
         callback?: (res?: object, err?: object) => any

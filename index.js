@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.modify = exports.fetch = exports.authenticate = exports.enums = void 0;
 const crypto = require("crypto");
 const base64url_1 = __importDefault(require("base64url"));
-const readlineSync = require('readline-sync');
+const readline_sync_1 = __importDefault(require("readline-sync"));
 const najax = require('najax');
 var enums;
 (function (enums) {
@@ -211,7 +211,7 @@ var authenticate;
         console.log(`Switch to "Console" tab and you will see an error shows:`);
         console.log(`"Failed to launch 'pixiv://...' because the scheme does not have a registered handler"`);
         while (true) {
-            pullUpURL = readlineSync.question(`Copy the link starts with "pixiv://" and paste it here: `);
+            pullUpURL = readline_sync_1.default.question(`Copy the link starts with "pixiv://" and paste it here: `);
             if (pullUpURL.search("pixiv://account/login") == -1) {
                 console.log(`The URL (${pullUpURL}) is not correct. Please try again.`);
             }
