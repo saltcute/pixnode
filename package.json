@@ -1,6 +1,6 @@
 {
   "name": "pixnode",
-  "version": "1.0.2",
+  "version": "1.0.2a",
   "description": "Pixiv API for node.js",
   "extends": "tsconfig.json",
   "author": "potatopotat0",
