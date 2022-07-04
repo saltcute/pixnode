@@ -12,7 +12,7 @@ const najax = require('najax');
 export function main(
     loginInfo: types.loginCredential,
     illustID: string,
-    callback?: (res?: object, err?: object) => any
+    callback?: (res: object, err?: object) => any
 ) {
     najax({
         url: `${enums.API_BASE_URL}/v1/illust/detail`,

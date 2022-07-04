@@ -17,7 +17,7 @@ export function main(
         visibility: keyof typeof enums.VISIBILITY,
         tags?: Array<string>
     },
-    callback?: (res?: object, err?: object) => any
+    callback?: (res: object, err?: object) => any
 ): void {
     let tag = tags?.join(" ");
     najax({

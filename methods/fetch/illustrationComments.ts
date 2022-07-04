@@ -14,10 +14,10 @@ export function main(
     loginInfo: types.loginCredential,
     illustID: string,
     { offset, includeTotalComments = "false" }: {
-        offset: string,
-        includeTotalComments: "true" | "false"
+        offset?: string,
+        includeTotalComments?: "true" | "false"
     },
-    callback?: (res?: object, err?: object) => any
+    callback?: (res: object, err?: object) => any
 ): void {
     najax({
         url: `${enums.API_BASE_URL}/v1/illust/comments`,

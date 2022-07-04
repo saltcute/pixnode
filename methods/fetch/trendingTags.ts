@@ -10,7 +10,7 @@ const najax = require('najax');
  */
 export function main(
     loginInfo: types.loginCredential,
-    callback?: (res?: object, err?: object) => any
+    callback?: (res: object, err?: object) => any
 ): void {
     najax({
         url: `${enums.API_BASE_URL}/v1/trending-tags/illust`,

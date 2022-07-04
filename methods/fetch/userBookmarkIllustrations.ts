@@ -16,11 +16,11 @@ export function main(
     loginInfo: types.loginCredential,
     userID: number,
     { visibility = "PUBLIC", maxBookmarkID, tag }: {
-        visibility: keyof typeof enums.VISIBILITY,
+        visibility?: keyof typeof enums.VISIBILITY,
         maxBookmarkID?: number,
         tag?: string
     },
-    callback?: (res?: object, err?: object) => any
+    callback?: (res: object, err?: object) => any
 ): void {
     najax({
         url: `${enums.API_BASE_URL}/v1/user/bookmarks/illust`,

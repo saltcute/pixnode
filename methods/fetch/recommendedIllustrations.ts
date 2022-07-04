@@ -19,14 +19,14 @@ export function main(
     loginInfo: types.loginCredential,
     { contentType, includeRankingIllustration = "false", maxBookmarkIDForRecommend, minBookmarkIDForRecentIllustrations, offset, bookmarkIllustIDs, includeRankingLabel = "true" }: {
         contentType?: keyof typeof enums.CONTENT_TYPE,
-        includeRankingIllustration: "false" | "true",
+        includeRankingIllustration?: "false" | "true",
         maxBookmarkIDForRecommend?: number,
         minBookmarkIDForRecentIllustrations?: number,
         offset?: number,
         bookmarkIllustIDs?: [],
-        includeRankingLabel: "false" | "true"
+        includeRankingLabel?: "false" | "true"
     },
-    callback?: (res?: object, err?: object) => any
+    callback?: (res: object, err?: object) => any
 ): void {
     let bookmarkIllustID = bookmarkIllustIDs?.join(",");
     najax({

@@ -14,11 +14,11 @@ const najax = require('najax');
 export function main(
     loginInfo: types.loginCredential,
     { mode = "DAY", date, offset }: {
-        mode: keyof typeof enums.RANKING_MODE,
+        mode?: keyof typeof enums.RANKING_MODE,
         date?: string,
         offset?: string
     },
-    callback?: (res?: object, err?: object) => any
+    callback?: (res: object, err?: object) => any
 ): void {
     najax({
         url: `${enums.API_BASE_URL}/v1/illust/ranking`,

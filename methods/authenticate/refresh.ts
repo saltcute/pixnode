@@ -9,7 +9,7 @@ const najax = require('najax');
 */
 export function main(
     refresh_token: string,
-    callback?: (res?: object, err?: object) => any
+    callback?: (res: types.loginCredential, err?: object) => any
 ): void {
     najax({
         url: enums.AUTH_URL,

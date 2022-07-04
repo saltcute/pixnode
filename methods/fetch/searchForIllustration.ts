@@ -16,23 +16,42 @@ const najax = require('najax');
 export function main(
     loginInfo: types.loginCredential,
     keyword: string,
-    { searchTarget = "TAGS_PARTIAL", sort = "DATE_DESC", duration = "LAST_DAY", offset }: {
-        searchTarget: keyof typeof enums.SEARCH_TARGET,
-        sort: keyof typeof enums.SORT,
+    { searchTarget = "TAGS_PARTIAL", sort = "DATE_DESC", duration = "LAST_DAY", offset, startDate, endDate }: {
+        searchTarget?: keyof typeof enums.SEARCH_TARGET,
+        sort?: keyof typeof enums.SORT,
         duration?: keyof typeof enums.DURATION,
-        offset?: number
+        startDate?: string;
+        endDate?: string;
+        offset?: number,
     },
-    callback?: (res?: object, err?: object) => any
+    callback?: (res: object, err?: object) => any
 ): void {
+    const date = {
+        LAST_DAY: 86400000,
+        LAST_WEEK: 604800000,
+        LAST_MONTH: 2592000000
+    }
+    var start_date = "";
+    if (duration !== undefined) {
+        start_date = common.getDate(Date.now() - date[duration]);
+    }
+    if (startDate !== undefined) {
+        start_date = startDate;
+    }
+    var end_date = common.getDate(Date.now());
+    if (endDate !== undefined) {
+        end_date = endDate;
+    }
     najax({
         url: `${enums.API_BASE_URL}/v1/search/illust`,
         data: {
             word: keyword,
             search_target: enums.SEARCH_TARGET[searchTarget],
             sort: enums.SORT[sort],
-            duration: duration,
             offset: offset,
             filter: enums.FILTER,
+            start_date: start_date,
+            end_date: end_date
         },
         headers: {
             "User-Agent": enums.USER_AGENT,

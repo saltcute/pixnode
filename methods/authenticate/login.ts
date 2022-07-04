@@ -10,7 +10,7 @@ import readlineSync from 'readline-sync';
 * @param callback (optional) Callback function
 */
 export function main(
-    callback?: (res?: object, err?: object) => any
+    callback?: (res: object, err?: object) => any
 ): void {
     let pullUpURL: string;
     let code_verifier = common.tokenBase64(32);

@@ -18,7 +18,7 @@ export function main(
         contentType?: keyof typeof enums.CONTENT_TYPE,
         offset?: string
     },
-    callback?: (res?: object, err?: object) => any
+    callback?: (res: object, err?: object) => any
 ): void {
     najax({
         url: `${enums.API_BASE_URL}/v1/user/illusts`,
