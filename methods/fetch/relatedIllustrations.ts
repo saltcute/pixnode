@@ -14,7 +14,7 @@ export function main(
     loginInfo: types.loginCredential,
     illustID: string,
     { offset }: {
-        offset?: string
+        offset?: number
     },
     callback?: (res: object, err?: object) => any
 ): void {

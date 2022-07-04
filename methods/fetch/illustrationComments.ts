@@ -14,7 +14,7 @@ export function main(
     loginInfo: types.loginCredential,
     illustID: string,
     { offset, includeTotalComments = "false" }: {
-        offset?: string,
+        offset?: number,
         includeTotalComments?: "true" | "false"
     },
     callback?: (res: object, err?: object) => any

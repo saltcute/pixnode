@@ -16,7 +16,7 @@ export function main(
     { mode = "DAY", date, offset }: {
         mode?: keyof typeof enums.RANKING_MODE,
         date?: string,
-        offset?: string
+        offset?: number
     },
     callback?: (res: object, err?: object) => any
 ): void {

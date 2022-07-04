@@ -16,7 +16,7 @@ export function main(
     userID: number,
     { contentType, offset }: {
         contentType?: keyof typeof enums.CONTENT_TYPE,
-        offset?: string
+        offset?: number
     },
     callback?: (res: object, err?: object) => any
 ): void {

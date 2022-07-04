@@ -13,7 +13,7 @@ export function main(
     loginInfo: types.loginCredential,
     { visibility = "PUBLIC", offset }: {
         visibility?: keyof typeof enums.VISIBILITY,
-        offset?: string
+        offset?: number
     },
     callback?: (res: object, err?: object) => any
 ): void {
