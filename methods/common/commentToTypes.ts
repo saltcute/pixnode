@@ -1,4 +1,4 @@
-import { types } from "../../definition/types";
+import { types } from "../../constants/types";
 
 /**
 * Convert comment to its coresponding type

@@ -1,5 +1,5 @@
-import { enums } from '../../definition/enum';
-import { types } from '../../definition/types';
+import { enums } from '../../constants/enums';
+import { types } from '../../constants/types';
 const najax = require('najax');
 
 /**

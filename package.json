@@ -1,13 +1,12 @@
 {
   "name": "pixnode",
-  "version": "1.0.2a",
+  "version": "1.0.4",
   "description": "Pixiv API for node.js",
   "extends": "tsconfig.json",
   "author": "potatopotat0",
   "license": "MIT",
   "dependencies": {
     "base64url": "^3.0.1",
-    "crypto": "^1.0.1",
     "najax": "^1.0.7",
     "readline-sync": "^1.4.10"
   },

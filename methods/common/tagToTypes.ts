@@ -1,4 +1,4 @@
-import { types } from "../../definition/types";
+import { types } from "../../constants/types";
 
 export function main(val: any): types.tag {
     return new types.tag(

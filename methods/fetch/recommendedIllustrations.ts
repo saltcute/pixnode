@@ -1,5 +1,5 @@
-import { types } from "../../definition/types";
-import { enums } from "../../definition/enum";
+import { types } from "../../constants/types";
+import { enums } from "../../constants/enums";
 import { common } from "../common";
 const najax = require('najax');
 
@@ -17,7 +17,7 @@ const najax = require('najax');
  */
 export function main(
     loginInfo: types.loginCredential,
-    { contentType, includeRankingIllustration = "false", maxBookmarkIDForRecommend, minBookmarkIDForRecentIllustrations, offset, bookmarkIllustIDs, includeRankingLabel = "true" }: {
+    { contentType = "ILLUSTRATION", includeRankingIllustration = "false", maxBookmarkIDForRecommend, minBookmarkIDForRecentIllustrations, offset, bookmarkIllustIDs, includeRankingLabel = "true" }: {
         contentType?: keyof typeof enums.CONTENT_TYPE,
         includeRankingIllustration?: "false" | "true",
         maxBookmarkIDForRecommend?: number,
@@ -33,7 +33,7 @@ export function main(
         url: `${enums.API_BASE_URL}/v1/illust/recommended`,
         type: "GET",
         data: {
-            content_type: contentType,
+            content_type: enums.CONTENT_TYPE[contentType],
             include_ranking_label: includeRankingLabel,
             max_bookmark_id_for_recommend: maxBookmarkIDForRecommend,
             min_bookmark_id_for_recent_illust: minBookmarkIDForRecentIllustrations,

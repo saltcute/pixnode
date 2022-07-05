@@ -1,8 +1,8 @@
 /**
  * Definition
  */
-export * from './definition/enum'
-export * from './definition/types'
+export * from './constants/enums'
+export * from './constants/types'
 
 /**
  * Methods

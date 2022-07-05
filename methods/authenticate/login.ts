@@ -1,6 +1,6 @@
 import { common } from '../common';
-import { enums } from '../../definition/enum';
-import { types } from '../../definition/types';
+import { enums } from '../../constants/enums';
+import { types } from '../../constants/types';
 import crypto from 'crypto';
 const najax = require('najax');
 import readlineSync from 'readline-sync';

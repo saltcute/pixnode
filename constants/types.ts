@@ -76,6 +76,14 @@ export namespace types {
             _sanity_level: number,
             _x_restrict: number,
             _is_bookmarked: boolean,
+            _image_urls: {
+                large: string,
+                medium: string,
+                square_medium: string
+            },
+            _meta_single_page: {
+                original_image_url: string
+            }
         ) {
             this.id = _id;
             this.title = _title;
@@ -89,6 +97,8 @@ export namespace types {
             this.sanity_level = _sanity_level;
             this.x_restrict = _x_restrict;
             this.is_bookmarked = _is_bookmarked;
+            this.image_urls = _image_urls;
+            this.meta_single_page = _meta_single_page
         }
         id: number;
         title: string;
@@ -102,6 +112,14 @@ export namespace types {
         sanity_level: number;
         x_restrict: number;
         is_bookmarked: boolean;
+        image_urls: {
+            large: string,
+            medium: string,
+            square_medium: string
+        };
+        meta_single_page: {
+            original_image_url: string
+        };
     }
     export class comment {
         constructor(

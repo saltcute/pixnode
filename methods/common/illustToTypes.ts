@@ -1,4 +1,4 @@
-import { types } from "../../definition/types";
+import { types } from "../../constants/types";
 import { common } from "../common";
 
 /**
@@ -29,6 +29,14 @@ export function main(val: any): types.illustration {
         val.page_count,
         val.sanity_level,
         val.x_restrict,
-        val.is_bookmarked
+        val.is_bookmarked,
+        {
+            large: val.image_urls.large,
+            medium: val.image_urls.medium,
+            square_medium: val.image_urls.square_medium
+        },
+        {
+            original_image_url: val.meta_single_page.original_image_url
+        }
     );
 }

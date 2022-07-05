@@ -1,5 +1,5 @@
-import { types } from "../../definition/types";
-import { enums } from "../../definition/enum";
+import { types } from "../../constants/types";
+import { enums } from "../../constants/enums";
 import { common } from "../common";
 const najax = require('najax');
 
@@ -14,7 +14,7 @@ const najax = require('najax');
 export function main(
     loginInfo: types.loginCredential,
     userID: number,
-    { contentType, offset }: {
+    { contentType = "ILLUSTRATION", offset }: {
         contentType?: keyof typeof enums.CONTENT_TYPE,
         offset?: number
     },
@@ -25,7 +25,7 @@ export function main(
         type: "GET",
         data: {
             user_id: userID,
-            type: contentType,
+            type: enums.CONTENT_TYPE[contentType],
             offset: offset,
             filter: enums.FILTER
         },
