@@ -29,6 +29,8 @@ export function main(val: any): types.illustration {
         val.page_count,
         val.sanity_level,
         val.x_restrict,
+        val.total_bookmarks,
+        val.total_views,
         val.is_bookmarked,
         {
             large: val.image_urls.large,

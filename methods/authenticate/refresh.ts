@@ -9,7 +9,7 @@ const najax = require('najax');
 */
 export function main(
     refresh_token: string,
-    callback?: (res: types.loginCredential, err?: object) => any
+    callback?: (res: types.loginCredential | undefined, err?: object) => any
 ): void {
     najax({
         url: enums.AUTH_URL,
@@ -43,6 +43,6 @@ export function main(
             if (callback !== undefined) callback(res);
         }
     }).error((err: any): void => {
-        if (callback !== undefined) callback(err)
+        if (callback !== undefined) callback(undefined, err)
     });
 }

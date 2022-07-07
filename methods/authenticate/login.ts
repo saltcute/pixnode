@@ -10,7 +10,7 @@ import readlineSync from 'readline-sync';
 * @param callback (optional) Callback function
 */
 export function main(
-    callback?: (res: object, err?: object) => any
+    callback?: (res: types.loginCredential | undefined, err?: object) => any
 ): void {
     let pullUpURL: string;
     let code_verifier = common.tokenBase64(32);
@@ -67,6 +67,6 @@ export function main(
             if (callback !== undefined) callback(res);
         }
     }).error((err: object): void => {
-        if (callback !== undefined) callback(err)
+        if (callback !== undefined) callback(undefined, err)
     });
 }

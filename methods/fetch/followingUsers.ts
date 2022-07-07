@@ -55,6 +55,6 @@ export function main(
             if (callback !== undefined) callback(res);
         }
     }).error((err: object) => {
-        if (callback !== undefined) callback(err);
+        if (callback !== undefined) callback({}, err);
     })
 }

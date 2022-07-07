@@ -76,6 +76,8 @@ export namespace types {
             _sanity_level: number,
             _x_restrict: number,
             _is_bookmarked: boolean,
+            _total_bookmarks: number,
+            _total_views: number,
             _image_urls: {
                 large: string,
                 medium: string,
@@ -97,6 +99,8 @@ export namespace types {
             this.sanity_level = _sanity_level;
             this.x_restrict = _x_restrict;
             this.is_bookmarked = _is_bookmarked;
+            this.total_bookmarks = _total_bookmarks;
+            this.total_views = _total_views;
             this.image_urls = _image_urls;
             this.meta_single_page = _meta_single_page
         }
@@ -112,6 +116,8 @@ export namespace types {
         sanity_level: number;
         x_restrict: number;
         is_bookmarked: boolean;
+        total_bookmarks: number;
+        total_views: number;
         image_urls: {
             large: string,
             medium: string,

@@ -40,6 +40,6 @@ export function main(
             });
         }
     }).error((err: object) => {
-        if (callback !== undefined) callback(err);
+        if (callback !== undefined) callback({}, err);
     })
 }
