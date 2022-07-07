@@ -31,7 +31,7 @@ export function main(val: any): types.illustration {
         val.x_restrict,
         val.is_bookmarked,
         val.total_bookmarks,
-        val.total_views,
+        val.total_view,
         {
             large: val.image_urls.large,
             medium: val.image_urls.medium,
