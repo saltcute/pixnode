@@ -22,7 +22,7 @@ export function main(
         headers: {
             "User-Agent": enums.USER_AGENT,
             "Authorization": `Bearer ${loginInfo.access_token}`,
-            "Accept-Language": "English"
+            "Accept-Language": enums.acceptLanguage()
         },
         success: (data: string) => {
             let res = JSON.parse(data);

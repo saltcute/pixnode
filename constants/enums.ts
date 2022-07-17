@@ -71,4 +71,12 @@ export namespace enums {
     export const USER_AGENT = "PixivAndroidApp/5.0.234 (Android 11; Pixel 5)";
     export const CLIENT_ID = "MOBrBDS8blbauoSck0ZfDbtuzpyT";
     export const CLIENT_SECRET = "lsACyCD94FhDUtGTXi3QzcFE2uU1hqtDaKeqrdwj";
+
+    export var ACCEPT_LANGUAGE: "zh-cn" | "zh-tw" | "en-us" | "ja-jp" | "ko-kr" = "en-us";
+    export function setLanguage(str: "zh-cn" | "zh-tw" | "en-us" | "ja-jp" | "ko-kr"): void {
+        ACCEPT_LANGUAGE = str;
+    }
+    export function acceptLanguage(): "zh-cn" | "zh-tw" | "en-us" | "ja-jp" | "ko-kr" {
+        return ACCEPT_LANGUAGE;
+    }
 }

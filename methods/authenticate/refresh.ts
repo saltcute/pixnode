@@ -36,8 +36,7 @@ export function main(
                     tmp.user.account,
                     tmp.user.mail_address,
                     tmp.user.is_premium,
-                    tmp.user.x_restrict,
-                    "English"
+                    tmp.user.x_restrict
                 )
             )
             if (callback !== undefined) callback(res);

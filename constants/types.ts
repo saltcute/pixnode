@@ -38,18 +38,15 @@ export namespace types {
             _mail: string,
             _is_premium: boolean,
             _x_restrict: number,
-            _language: string
         ) {
             super(_uid, _name, _account);
             this.mail = _mail;
             this.is_premium = _is_premium;
             this.x_restrict = _x_restrict;
-            this.language = _language;
         }
         mail: string;
         is_premium: boolean;
         x_restrict: number;
-        language: string;
     }
     export class tag {
         constructor(
