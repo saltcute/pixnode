@@ -73,10 +73,4 @@ export namespace enums {
     export const CLIENT_SECRET = "lsACyCD94FhDUtGTXi3QzcFE2uU1hqtDaKeqrdwj";
 
     export var ACCEPT_LANGUAGE: "zh-cn" | "zh-tw" | "en-us" | "ja-jp" | "ko-kr" = "en-us";
-    export function setLanguage(str: "zh-cn" | "zh-tw" | "en-us" | "ja-jp" | "ko-kr"): void {
-        ACCEPT_LANGUAGE = str;
-    }
-    export function acceptLanguage(): "zh-cn" | "zh-tw" | "en-us" | "ja-jp" | "ko-kr" {
-        return ACCEPT_LANGUAGE;
-    }
 }

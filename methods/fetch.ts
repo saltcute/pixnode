@@ -27,7 +27,7 @@ export namespace fetch {
     export const illustrationComments = IllustrationComments.main;
     export const illustrationFromFollowingCreators = IllustrationFromFollowingCreators.main;
     export const illustrationRanking = IllustrationRanking.main;
-    export const recommendedIllustrations = RelatedIllustrations.main;
+    export const recommendedIllustrations = RecommendedIllustrations.main;
     export const relatedIllustrations = RelatedIllustrations.main;
     export const searchForIllustration = SearchForIllustration.main;
     export const trendingTags = TrendingTags.main;
