@@ -31,14 +31,14 @@ export function main(
         LAST_WEEK: 604800000,
         LAST_MONTH: 2592000000
     }
-    var start_date = "";
+    var start_date = undefined, end_date = undefined;
     if (duration !== undefined) {
         start_date = common.getDate(Date.now() - date[duration]);
+        end_date = common.getDate(Date.now())
     }
     if (startDate !== undefined) {
         start_date = startDate;
     }
-    var end_date = common.getDate(Date.now());
     if (endDate !== undefined) {
         end_date = endDate;
     }
