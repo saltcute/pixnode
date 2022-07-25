@@ -16,7 +16,7 @@ const najax = require('najax');
 export function main(
     loginInfo: types.loginCredential,
     keyword: string,
-    { searchTarget = "TAGS_PARTIAL", sort = "DATE_DESC", duration = "LAST_DAY", offset, startDate, endDate }: {
+    { searchTarget = "TAGS_PARTIAL", sort = "DATE_DESC", duration, offset, startDate, endDate }: {
         searchTarget?: keyof typeof enums.SEARCH_TARGET,
         sort?: keyof typeof enums.SORT,
         duration?: keyof typeof enums.DURATION,
