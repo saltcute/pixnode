@@ -1,6 +1,7 @@
 import { types } from "../../constants/types";
 import { enums } from "../../constants/enums";
 import axios from "axios";
+import qs from 'qs';
 
 /**
  * Add an illustration to bookmark
@@ -11,7 +12,7 @@ import axios from "axios";
  */
 export default async (
     loginInfo: types.loginCredential,
-    illustID: number,
+    illustID: string,
     { visibility = "PUBLIC", tags }: {
         visibility: keyof typeof enums.VISIBILITY,
         tags?: Array<string>
@@ -21,12 +22,12 @@ export default async (
     try {
         return axios({
             url: `${enums.API_BASE_URL}/v2/illust/bookmark/add`,
-            method: 'POST',
-            data: {
+            method: "POST",
+            data: qs.stringify({
                 illust_id: illustID,
                 restrict: enums.VISIBILITY[visibility],
                 "tags[]": tag
-            },
+            }),
             headers: {
                 "User-Agent": enums.USER_AGENT,
                 "Authorization": `Bearer ${loginInfo.access_token}`,

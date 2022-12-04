@@ -1,6 +1,7 @@
 import { types } from "../../constants/types";
 import { enums } from "../../constants/enums";
 import axios from "axios";
+import qs from 'qs';
 
 /**
  * Remove an illustration from bookmark
@@ -15,9 +16,9 @@ export default async (
         return axios({
             url: `${enums.API_BASE_URL}/v2/illust/bookmark/delete`,
             method: 'POST',
-            data: {
+            data: qs.stringify({
                 illust_id: illustID
-            },
+            }),
             headers: {
                 "User-Agent": enums.USER_AGENT,
                 "Authorization": `Bearer ${loginInfo.access_token}`,

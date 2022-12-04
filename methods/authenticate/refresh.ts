@@ -1,6 +1,7 @@
 import { enums } from '../../constants/enums';
 import { types } from '../../constants/types';
 import axios from 'axios';
+import qs from 'qs';
 
 /**
 * Establish a new login session of current user
@@ -12,13 +13,13 @@ export default async (refresh_token: string): Promise<types.loginCredential> => 
         const res = (await axios({
             url: enums.AUTH_URL,
             method: 'POST',
-            data: {
+            data: qs.stringify({
                 'client_id': enums.CLIENT_ID,
                 'client_secret': enums.CLIENT_SECRET,
                 'grant_type': "refresh_token",
                 'include_policy': true,
                 'refresh_token': refresh_token
-            },
+            }),
             headers: {
                 'User-Agent': enums.USER_AGENT
             }
