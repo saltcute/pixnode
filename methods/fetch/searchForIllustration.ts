@@ -1,7 +1,7 @@
 import { types } from "../../constants/types";
 import { enums } from "../../constants/enums";
 import { common } from "../common";
-const najax = require('najax');
+import axios from 'axios';
 
 /**
  * Search for illustration with the specified information
@@ -13,7 +13,7 @@ const najax = require('najax');
  * @param offset (optional) Illustration order offset (starting point)
  * @param callback (optional) Callback function
  */
-export function main(
+export default async (
     loginInfo: types.loginCredential,
     keyword: string,
     { searchTarget = "TAGS_PARTIAL", sort = "DATE_DESC", duration, offset, startDate, endDate }: {
@@ -23,9 +23,8 @@ export function main(
         startDate?: string;
         endDate?: string;
         offset?: number,
-    },
-    callback?: (res: object, err?: object) => any
-): void {
+    }
+): Promise<types.illustration[]> => {
     const date = {
         LAST_DAY: 86400000,
         LAST_WEEK: 604800000,
@@ -42,31 +41,30 @@ export function main(
     if (endDate !== undefined) {
         end_date = endDate;
     }
-    najax({
-        url: `${enums.API_BASE_URL}/v1/search/illust`,
-        data: {
-            word: keyword,
-            search_target: enums.SEARCH_TARGET[searchTarget],
-            sort: enums.SORT[sort],
-            offset: offset,
-            filter: enums.FILTER,
-            start_date: start_date,
-            end_date: end_date
-        },
-        headers: {
-            "User-Agent": enums.USER_AGENT,
-            "Authorization": `Bearer ${loginInfo.access_token}`,
-            "Accept-Language": enums.ACCEPT_LANGUAGE
-        },
-        success: (data: string) => {
-            let tmp = JSON.parse(data);
-            let res = new Array<types.illustration>();
-            for (let val of tmp.illusts) {
-                res.push(common.illustToTypes(val))
+    try {
+        const res = (await axios({
+            url: `${enums.API_BASE_URL}/v1/search/illust`,
+            data: {
+                word: keyword,
+                search_target: enums.SEARCH_TARGET[searchTarget],
+                sort: enums.SORT[sort],
+                offset: offset,
+                filter: enums.FILTER,
+                start_date: start_date,
+                end_date: end_date
+            },
+            headers: {
+                "User-Agent": enums.USER_AGENT,
+                "Authorization": `Bearer ${loginInfo.access_token}`,
+                "Accept-Language": enums.ACCEPT_LANGUAGE
             }
-            if (callback !== undefined) callback(res);
+        }));
+        let tmp = new Array<types.illustration>();
+        for (let val of res.data.illusts) {
+            tmp.push(common.illustToTypes(val))
         }
-    }).error((err: object) => {
-        if (callback !== undefined) callback({}, err);
-    });
+        return tmp;
+    } catch (err) {
+        return Promise.reject(err);
+    }
 };

@@ -1,7 +1,7 @@
 import { types } from "../../constants/types";
 import { enums } from "../../constants/enums";
 import { common } from "../common";
-const najax = require('najax');
+import axios from 'axios';
 
 /**
  * Get illustrations published by the specified user
@@ -11,38 +11,36 @@ const najax = require('najax');
  * @param offset (optional) Response order offset
  * @param callback (optional) Callback function
  */
-export function main(
+export default async (
     loginInfo: types.loginCredential,
     userID: number,
     { contentType = "ILLUSTRATION", offset }: {
         contentType?: keyof typeof enums.CONTENT_TYPE,
         offset?: number
-    },
-    callback?: (res: object, err?: object) => any
-): void {
-    najax({
-        url: `${enums.API_BASE_URL}/v1/user/illusts`,
-        type: "GET",
-        data: {
-            user_id: userID,
-            type: enums.CONTENT_TYPE[contentType],
-            offset: offset,
-            filter: enums.FILTER
-        },
-        headers: {
-            "User-Agent": enums.USER_AGENT,
-            "Authorization": `Bearer ${loginInfo.access_token}`,
-            "Accept-Language": enums.ACCEPT_LANGUAGE
-        },
-        success: (data: string): void => {
-            let tmp = JSON.parse(data);
-            let res = new Array<types.illustration>();
-            for (let val of tmp.illusts) {
-                res.push(common.illustToTypes(val));
+    }
+): Promise<types.illustration[]> => {
+    try {
+        const res = (await axios({
+            url: `${enums.API_BASE_URL}/v1/user/illusts`,
+            method: 'GET',
+            params: {
+                user_id: userID,
+                type: enums.CONTENT_TYPE[contentType],
+                offset: offset,
+                filter: enums.FILTER
+            },
+            headers: {
+                "User-Agent": enums.USER_AGENT,
+                "Authorization": `Bearer ${loginInfo.access_token}`,
+                "Accept-Language": enums.ACCEPT_LANGUAGE
             }
-            if (callback !== undefined) callback(res);
+        }));
+        let tmp = new Array<types.illustration>();
+        for (let val of res.data.illusts) {
+            tmp.push(common.illustToTypes(val));
         }
-    }).error((err: object) => {
-        if (callback !== undefined) callback({}, err);
-    })
+        return tmp;
+    } catch (err) {
+        return Promise.reject(err);
+    }
 }

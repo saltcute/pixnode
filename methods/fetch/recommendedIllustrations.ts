@@ -1,7 +1,7 @@
 import { types } from "../../constants/types";
 import { enums } from "../../constants/enums";
 import { common } from "../common";
-const najax = require('najax');
+import axios from 'axios';
 
 /**
  * Get recommended illustration
@@ -13,9 +13,8 @@ const najax = require('najax');
  * @param offset (optional) Illustration offset (starting point)
  * @param bookmarkIllustIDs (optional) An array containing illustration IDs
  * @param includeRankingLabel (Default: true) Whether to include ranking label or not
- * @param callback (optional) Callback function
  */
-export function main(
+export default async (
     loginInfo: types.loginCredential,
     { contentType = "ILLUSTRATION", includeRankingIllustration = "false", maxBookmarkIDForRecommend, minBookmarkIDForRecentIllustrations, offset, bookmarkIllustIDs, includeRankingLabel = "true" }: {
         contentType?: keyof typeof enums.CONTENT_TYPE,
@@ -25,36 +24,34 @@ export function main(
         offset?: number,
         bookmarkIllustIDs?: [],
         includeRankingLabel?: "false" | "true"
-    },
-    callback?: (res: object, err?: object) => any
-): void {
+    }
+): Promise<types.illustration[]> => {
     let bookmarkIllustID = bookmarkIllustIDs?.join(",");
-    najax({
-        url: `${enums.API_BASE_URL}/v1/illust/recommended`,
-        type: "GET",
-        data: {
-            content_type: enums.CONTENT_TYPE[contentType],
-            include_ranking_label: includeRankingLabel,
-            max_bookmark_id_for_recommend: maxBookmarkIDForRecommend,
-            min_bookmark_id_for_recent_illust: minBookmarkIDForRecentIllustrations,
-            offset: offset,
-            include_ranking_illusts: includeRankingIllustration,
-            bookmark_illust_ids: bookmarkIllustID
-        },
-        headers: {
-            "User-Agent": enums.USER_AGENT,
-            "Authorization": `Bearer ${loginInfo.access_token}`,
-            "Accept-Language": enums.ACCEPT_LANGUAGE
-        },
-        success: (data: string) => {
-            let tmp = JSON.parse(data);
-            let res = new Array<types.illustration>();
-            for (let val of tmp.illusts) {
-                res.push(common.illustToTypes(val))
+    try {
+        const res = (await axios({
+            url: `${enums.API_BASE_URL}/v1/illust/recommended`,
+            method: 'GET',
+            params: {
+                content_type: enums.CONTENT_TYPE[contentType],
+                include_ranking_label: includeRankingLabel,
+                max_bookmark_id_for_recommend: maxBookmarkIDForRecommend,
+                min_bookmark_id_for_recent_illust: minBookmarkIDForRecentIllustrations,
+                offset: offset,
+                include_ranking_illusts: includeRankingIllustration,
+                bookmark_illust_ids: bookmarkIllustID
+            },
+            headers: {
+                "User-Agent": enums.USER_AGENT,
+                "Authorization": `Bearer ${loginInfo.access_token}`,
+                "Accept-Language": enums.ACCEPT_LANGUAGE
             }
-            if (callback !== undefined) callback(res);
+        }));
+        let tmp = new Array<types.illustration>();
+        for (let val of res.data.illusts) {
+            tmp.push(common.illustToTypes(val))
         }
-    }).error((err: object) => {
-        if (callback !== undefined) callback({}, err);
-    })
+        return tmp;
+    } catch (err) {
+        return Promise.reject(err);
+    }
 }

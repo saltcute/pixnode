@@ -1,45 +1,44 @@
 import { types } from "../../constants/types";
 import { enums } from "../../constants/enums";
 import { common } from "../common";
-const najax = require('najax');
+import axios from 'axios'
 
 /**
  * Check if a specified illustration is bookmarked by current user
  * @param loginInfo Contains login credentials and account information
  * @param illustID ID of the specified illustration
- * @param callback (optional) Callback function
+ * @returns Bookmark infomation
  */
-export function main(
+export default async (
     loginInfo: types.loginCredential,
-    illustID: string,
-    callback?: (res: object, err?: object) => any
-): void {
-    najax({
-        url: `${enums.API_BASE_URL}/v2/illust/bookmark/detail`,
-        type: "GET",
-        data: {
-            illust_id: illustID
-        },
-        headers: {
-            "User-Agent": enums.USER_AGENT,
-            "Authorization": `Bearer ${loginInfo.access_token}`,
-            "Accept-Language": enums.ACCEPT_LANGUAGE
-        },
-        success: (data: string) => {
-            let tmp = JSON.parse(data).bookmark_detail;
-            if (callback !== undefined) callback({
-                is_bookmarked: tmp.is_bookmarked,
-                tags: (() => {
-                    let res = new Array<types.tag>();
-                    for (let val of tmp.tags) {
-                        res.push(common.tagToTypes(val));
-                    }
-                    return res;
-                })(),
-                restrict: tmp.restrict
-            });
-        }
-    }).error((err: object) => {
-        if (callback !== undefined) callback({}, err);
-    })
+    illustID: number
+): Promise<{ is_bookmarked: number, tags: types.tag[], restrict: number }> => {
+    try {
+        const res = (await axios({
+            url: `${enums.API_BASE_URL}/v2/illust/bookmark/detail`,
+            method: 'GET',
+            params: {
+                illust_id: illustID
+            },
+            headers: {
+                "User-Agent": enums.USER_AGENT,
+                "Authorization": `Bearer ${loginInfo.access_token}`,
+                "Accept-Language": enums.ACCEPT_LANGUAGE
+            }
+        }));
+        let tmp = res.data.bookmark_detail;
+        return {
+            is_bookmarked: tmp.is_bookmarked,
+            tags: (() => {
+                let tags = new Array<types.tag>();
+                for (let val of tmp.tags) {
+                    tags.push(common.tagToTypes(val));
+                }
+                return tags;
+            })(),
+            restrict: tmp.restrict
+        };
+    } catch (err) {
+        return Promise.reject(err);
+    }
 }

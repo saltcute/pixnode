@@ -6,6 +6,6 @@ import base64url from 'base64url';
 * @param size Determines how many bytes of data is to be generated
 * @returns URL-safe base64 string
 */
-export function main(size: number): string {
+export default (size: number): string => {
     return base64url(crypto.randomBytes(size));
 }

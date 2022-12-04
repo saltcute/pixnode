@@ -1,7 +1,7 @@
 import { types } from "../../constants/types";
 import { enums } from "../../constants/enums";
 import { common } from "../common";
-const najax = require('najax');
+import axios from 'axios';
 
 /**
  * Get bookmarked illustrations of the specified user
@@ -12,39 +12,38 @@ const najax = require('najax');
  * @param tag (optional) Bookmark tag 
  * @param callback (optional) Callback function
  */
-export function main(
+export default async (
     loginInfo: types.loginCredential,
     userID: number,
     { visibility = "PUBLIC", maxBookmarkID, tag }: {
         visibility?: keyof typeof enums.VISIBILITY,
         maxBookmarkID?: number,
         tag?: string
-    },
-    callback?: (res: object, err?: object) => any
-): void {
-    najax({
-        url: `${enums.API_BASE_URL}/v1/user/bookmarks/illust`,
-        type: "GET",
-        data: {
-            user_id: userID,
-            restrict: enums.VISIBILITY[visibility],
-            max_bookmark_id: maxBookmarkID,
-            tag: tag
-        },
-        headers: {
-            "User-Agent": enums.USER_AGENT,
-            "Authorization": `Bearer ${loginInfo.access_token}`,
-            "Accept-Language": enums.ACCEPT_LANGUAGE
-        },
-        success: (data: string): void => {
-            let tmp = JSON.parse(data);
-            let res = new Array<types.illustration>();
-            for (let val of tmp.illusts) {
-                res.push(common.illustToTypes(val));
+    }
+): Promise<types.illustration[]> => {
+    try {
+        const res = (await axios({
+            url: `${enums.API_BASE_URL}/v1/user/bookmarks/illust`,
+            method: 'GET',
+            params: {
+                user_id: userID,
+                restrict: enums.VISIBILITY[visibility],
+                max_bookmark_id: maxBookmarkID,
+                tag: tag
+            },
+            headers: {
+                "User-Agent": enums.USER_AGENT,
+                "Authorization": `Bearer ${loginInfo.access_token}`,
+                "Accept-Language": enums.ACCEPT_LANGUAGE
             }
-            if (callback !== undefined) callback(res);
+        }));
+
+        let tmp = new Array<types.illustration>();
+        for (let val of res.data.illusts) {
+            tmp.push(common.illustToTypes(val));
         }
-    }).error((err: object) => {
-        if (callback !== undefined) callback({}, err);
-    })
+        return tmp;
+    } catch (err) {
+        return Promise.reject(err);
+    }
 }

@@ -1,6 +1,6 @@
 import { types } from "../../constants/types";
 import { enums } from "../../constants/enums";
-const najax = require('najax');
+import axios from "axios";
 
 /**
  * Add an illustration to bookmark
@@ -8,36 +8,32 @@ const najax = require('najax');
  * @param illustID ID of the illustration to be added to bookmark
  * @param visibility (Default: PUBLIC) Visibility of the specified illustration in bookmark
  * @param tags (optional) Bookmark tags of the specified illustration
- * @param callback (optional) Callback function
  */
-export function main(
+export default async (
     loginInfo: types.loginCredential,
-    illustID: string,
+    illustID: number,
     { visibility = "PUBLIC", tags }: {
         visibility: keyof typeof enums.VISIBILITY,
         tags?: Array<string>
-    },
-    callback?: (res: object, err?: object) => any
-): void {
+    }
+): Promise<void> => {
     let tag = tags?.join(" ");
-    najax({
-        url: `${enums.API_BASE_URL}/v2/illust/bookmark/add`,
-        type: "POST",
-        data: {
-            illust_id: illustID,
-            restrict: enums.VISIBILITY[visibility],
-            "tags[]": tag
-        },
-        headers: {
-            "User-Agent": enums.USER_AGENT,
-            "Authorization": `Bearer ${loginInfo.access_token}`,
-            "Accept-Language": enums.ACCEPT_LANGUAGE
-        },
-        success: (data: string) => {
-            let res = JSON.parse(data);
-            if (callback !== undefined) callback(res);
-        }
-    }).error((err: object) => {
-        if (callback !== undefined) callback({}, err);
-    })
+    try {
+        return axios({
+            url: `${enums.API_BASE_URL}/v2/illust/bookmark/add`,
+            method: 'POST',
+            data: {
+                illust_id: illustID,
+                restrict: enums.VISIBILITY[visibility],
+                "tags[]": tag
+            },
+            headers: {
+                "User-Agent": enums.USER_AGENT,
+                "Authorization": `Bearer ${loginInfo.access_token}`,
+                "Accept-Language": enums.ACCEPT_LANGUAGE
+            }
+        })
+    } catch (err) {
+        return Promise.reject(err);
+    }
 }

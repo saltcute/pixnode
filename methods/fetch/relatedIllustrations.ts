@@ -1,7 +1,7 @@
 import { types } from "../../constants/types";
 import { enums } from "../../constants/enums";
 import { common } from "../common";
-const najax = require('najax');
+import axios from 'axios';
 
 /**
  * Get related illustration of the illustration of the specified ID
@@ -10,35 +10,33 @@ const najax = require('najax');
  * @param offset (optional) Illustration order offset (starting point)
  * @param callback (optional) Callback function
  */
-export function main(
+export default async (
     loginInfo: types.loginCredential,
-    illustID: string,
+    illustID: number,
     { offset }: {
         offset?: number
-    },
-    callback?: (res: object, err?: object) => any
-): void {
-    najax({
-        url: `${enums.API_BASE_URL}/v2/illust/related`,
-        type: "GET",
-        data: {
-            illust_id: illustID,
-            offset: offset
-        },
-        headers: {
-            "User-Agent": enums.USER_AGENT,
-            "Authorization": `Bearer ${loginInfo.access_token}`,
-            "Accept-Language": enums.ACCEPT_LANGUAGE
-        },
-        success: (data: string) => {
-            let tmp = JSON.parse(data);
-            let res = new Array<types.illustration>();
-            for (let val of tmp.illusts) {
-                res.push(common.illustToTypes(val))
+    }
+): Promise<types.illustration[]> => {
+    try {
+        const res = (await axios({
+            url: `${enums.API_BASE_URL}/v2/illust/related`,
+            method: 'GET',
+            params: {
+                illust_id: illustID,
+                offset: offset
+            },
+            headers: {
+                "User-Agent": enums.USER_AGENT,
+                "Authorization": `Bearer ${loginInfo.access_token}`,
+                "Accept-Language": enums.ACCEPT_LANGUAGE
             }
-            if (callback !== undefined) callback(res);
+        }));
+        let tmp = new Array<types.illustration>();
+        for (let val of res.data.illusts) {
+            tmp.push(common.illustToTypes(val))
         }
-    }).error((err: object) => {
-        if (callback !== undefined) callback({}, err);
-    });
+        return tmp;
+    } catch (err) {
+        return Promise.reject(err);
+    }
 }

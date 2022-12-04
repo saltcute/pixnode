@@ -5,7 +5,7 @@ import { types } from "../../constants/types";
 * @param val Object contains comment information from Pixiv responses
 * @returns comment object
 */
-export function main(
+export default function getComment(
     val: any,
     hasParentComment: "true" | "false"
 ): types.comment {
@@ -18,6 +18,6 @@ export function main(
             val.user.name,
             val.user.account
         ),
-        hasParentComment == "true" ? main(val.parent_comment, "false") : undefined
+        hasParentComment == "true" ? getComment(val.parent_comment, "false") : undefined
     );
 }

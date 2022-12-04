@@ -6,7 +6,7 @@ import { common } from "../common";
 * @param val Object contains illustration information from Pixiv responses
 * @returns Illustration object
 */
-export function main(val: any): types.illustration {
+export default (val: any): types.illustration => {
     return new types.illustration(
         val.id,
         val.title,
