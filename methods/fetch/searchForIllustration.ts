@@ -44,7 +44,8 @@ export default async (
     try {
         const res = (await axios({
             url: `${enums.API_BASE_URL}/v1/search/illust`,
-            data: {
+            method: "GET",
+            params: {
                 word: keyword,
                 search_target: enums.SEARCH_TARGET[searchTarget],
                 sort: enums.SORT[sort],
