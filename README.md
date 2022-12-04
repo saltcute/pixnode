@@ -11,7 +11,7 @@ npm i pixnode
 Then require the module in your code:
 
 ```typescript
-const pixNode = require('pixnode');
+import * as pixiv from 'pixnode';
 ```
 
 
