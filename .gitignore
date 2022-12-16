@@ -3,3 +3,5 @@ package-lock.json
 *.js
 test.ts
 test.js
+
+dist/
