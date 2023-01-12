@@ -32,13 +32,8 @@ export default (val: any): types.illustration => {
         val.is_bookmarked,
         val.total_bookmarks,
         val.total_view,
-        {
-            large: val.image_urls.large,
-            medium: val.image_urls.medium,
-            square_medium: val.image_urls.square_medium
-        },
-        {
-            original_image_url: val.meta_single_page.original_image_url
-        }
+        val.image_urls,
+        val.meta_single_page,
+        val.meta_pages
     );
 }

@@ -26,6 +26,7 @@ export default async (
                 "Accept-Language": enums.ACCEPT_LANGUAGE
             }
         }));
+        console.dir(res.data, { depth: null });
         let tmp = res.data.illust;
         return common.illustToTypes(tmp);
     } catch (err) {
