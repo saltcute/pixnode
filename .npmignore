@@ -2,5 +2,6 @@ node_modules/
 package-lock.json
 test.ts
 test.js
+test/
 
 src/
