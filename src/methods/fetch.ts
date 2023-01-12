@@ -13,6 +13,7 @@ import User from './fetch/user'
 import UserBookmarkIllustrations from './fetch/userBookmarkIllustrations'
 import UserBookmarkTags from './fetch/userBookmarkTags'
 import UserIllustrations from './fetch/userIllustrations'
+import SearchForUser from './fetch/searchForUser'
 
 
 
@@ -35,4 +36,5 @@ export namespace fetch {
     export const userBookmarkIllustrations = UserBookmarkIllustrations;
     export const userBookmarkTags = UserBookmarkTags;
     export const userIllustrations = UserIllustrations;
+    export const searchForUser = SearchForUser;
 }
