@@ -12,6 +12,11 @@
     "readline-sync": "^1.4.10"
   },
   "main": "./dist/index",
+  "scripts": {
+    "build": "tsc && copyfiles -u 1 \"src/**/*\" -e \"src/**/*.ts\" dist",
+    "clean": "rimraf dist/*",
+    "make": "npm run clean && npm run build"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Hexona69/pix-node.git"
