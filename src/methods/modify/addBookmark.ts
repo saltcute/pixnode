@@ -1,7 +1,7 @@
 import { types } from "../../constants/types";
 import { enums } from "../../constants/enums";
 import axios from "axios";
-import qs from 'qs';
+import qs from "qs";
 
 /**
  * Add an illustration to bookmark
@@ -13,9 +13,12 @@ import qs from 'qs';
 export default async (
     loginInfo: types.loginCredential,
     illustID: string,
-    { visibility = "PUBLIC", tags }: {
-        visibility: keyof typeof enums.VISIBILITY,
-        tags?: Array<string>
+    {
+        visibility = "PUBLIC",
+        tags,
+    }: {
+        visibility: keyof typeof enums.VISIBILITY;
+        tags?: Array<string>;
     }
 ): Promise<void> => {
     let tag = tags?.join(" ");
@@ -26,15 +29,15 @@ export default async (
             data: qs.stringify({
                 illust_id: illustID,
                 restrict: enums.VISIBILITY[visibility],
-                "tags[]": tag
+                "tags[]": tag,
             }),
             headers: {
                 "User-Agent": enums.USER_AGENT,
-                "Authorization": `Bearer ${loginInfo.access_token}`,
-                "Accept-Language": enums.ACCEPT_LANGUAGE
-            }
-        })
+                Authorization: `Bearer ${loginInfo.access_token}`,
+                "Accept-Language": enums.ACCEPT_LANGUAGE,
+            },
+        });
     } catch (err) {
         return Promise.reject(err);
     }
-}
+};

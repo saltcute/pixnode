@@ -2,9 +2,9 @@ import CommentToTypes from "./common/commentToTypes";
 import IllustToTypes from "./common/illustToTypes";
 import TokenBase64 from "./common/tokenBase64";
 import TagToTypes from "./common/tagToTypes";
-import GetDate from './common/getDate'
+import GetDate from "./common/getDate";
 
-import { enums } from '../constants/enums'
+import { enums } from "../constants/enums";
 
 /**
  * Common items shared between multiple methods
@@ -17,7 +17,9 @@ export namespace common {
     export const tagToTypes = TagToTypes;
     export const getDate = GetDate;
 
-    export function setLanguage(str: "zh-cn" | "zh-tw" | "en-us" | "ja-jp" | "ko-kr"): void {
+    export function setLanguage(
+        str: "zh-cn" | "zh-tw" | "en-us" | "ja-jp" | "ko-kr"
+    ): void {
         enums.ACCEPT_LANGUAGE = str;
     }
 }

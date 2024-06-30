@@ -2,10 +2,10 @@ import { types } from "../../constants/types";
 import { common } from "../common";
 
 /**
-* Convert illustration to its coresponding type
-* @param val Object contains illustration information from Pixiv responses
-* @returns Illustration object
-*/
+ * Convert illustration to its coresponding type
+ * @param val Object contains illustration information from Pixiv responses
+ * @returns Illustration object
+ */
 export default (val: any): types.illustration => {
     return new types.illustration(
         val.id,
@@ -13,11 +13,7 @@ export default (val: any): types.illustration => {
         val.type,
         val.caption,
         val.restrict,
-        new types.userInformation(
-            val.user.id,
-            val.user.name,
-            val.user.account
-        ),
+        new types.userInformation(val.user.id, val.user.name, val.user.account),
         (() => {
             let rt = new Array<types.tag>();
             for (let value of val.tags) {
@@ -36,4 +32,4 @@ export default (val: any): types.illustration => {
         val.meta_single_page,
         val.meta_pages
     );
-}
+};

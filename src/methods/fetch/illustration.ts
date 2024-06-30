@@ -1,7 +1,7 @@
 import { types } from "../../constants/types";
 import { enums } from "../../constants/enums";
 import { common } from "../common";
-import axios from 'axios';
+import axios from "axios";
 
 /**
  * Get detail for a illustration of the specified ID
@@ -11,25 +11,25 @@ import axios from 'axios';
  */
 export default async (
     loginInfo: types.loginCredential,
-    illustID: number,
+    illustID: number
 ): Promise<types.illustration> => {
     try {
-        const res = await (axios({
+        const res = await axios({
             url: `${enums.API_BASE_URL}/v1/illust/detail`,
-            method: 'GET',
+            method: "GET",
             params: {
-                illust_id: illustID
+                illust_id: illustID,
             },
             headers: {
                 "User-Agent": enums.USER_AGENT,
-                "Authorization": `Bearer ${loginInfo.access_token}`,
-                "Accept-Language": enums.ACCEPT_LANGUAGE
-            }
-        }));
+                Authorization: `Bearer ${loginInfo.access_token}`,
+                "Accept-Language": enums.ACCEPT_LANGUAGE,
+            },
+        });
         console.dir(res.data, { depth: null });
         let tmp = res.data.illust;
         return common.illustToTypes(tmp);
     } catch (err) {
         return Promise.reject(err);
     }
-}
+};

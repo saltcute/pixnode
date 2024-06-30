@@ -4,6 +4,6 @@
  */
 export default (timestamp: number) => {
     const date = new Date();
-    const offset = date.getTimezoneOffset()
-    return new Date(timestamp - (offset * 60 * 1000)).toISOString().split('T')[0];
-}
+    const offset = date.getTimezoneOffset();
+    return new Date(timestamp - offset * 60 * 1000).toISOString().split("T")[0];
+};

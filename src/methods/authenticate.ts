@@ -1,5 +1,5 @@
 import Refresh from "./authenticate/refresh";
-import Login from './authenticate/login'
+import Login from "./authenticate/login";
 
 /**
  * Methods about authentication

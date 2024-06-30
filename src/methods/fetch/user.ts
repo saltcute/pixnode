@@ -1,7 +1,7 @@
 import { types } from "../../constants/types";
 import { enums } from "../../constants/enums";
 import { common } from "../common";
-import axios from 'axios';
+import axios from "axios";
 
 /**
  * Get detail of a user
@@ -13,21 +13,21 @@ export default async (
     userID: number
 ): Promise<any> => {
     try {
-        const res = (await axios({
+        const res = await axios({
             url: `${enums.API_BASE_URL}/v1/user/detail`,
-            method: 'GET',
+            method: "GET",
             params: {
                 user_id: userID,
-                filter: enums.FILTER
+                filter: enums.FILTER,
             },
             headers: {
                 "User-Agent": enums.USER_AGENT,
-                "Authorization": `Bearer ${loginInfo.access_token}`,
-                "Accept-Language": enums.ACCEPT_LANGUAGE
-            }
-        }));
+                Authorization: `Bearer ${loginInfo.access_token}`,
+                "Accept-Language": enums.ACCEPT_LANGUAGE,
+            },
+        });
         return res.data;
     } catch (err) {
         return Promise.reject(err);
     }
-}
+};

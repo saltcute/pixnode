@@ -1,7 +1,7 @@
 import { types } from "../../constants/types";
 import { enums } from "../../constants/enums";
 import { common } from "../common";
-import axios from 'axios';
+import axios from "axios";
 
 /**
  * Get illustrations published by the specified user
@@ -14,27 +14,30 @@ import axios from 'axios';
 export default async (
     loginInfo: types.loginCredential,
     userID: number,
-    { contentType = "ILLUSTRATION", offset }: {
-        contentType?: keyof typeof enums.CONTENT_TYPE,
-        offset?: number
+    {
+        contentType = "ILLUSTRATION",
+        offset,
+    }: {
+        contentType?: keyof typeof enums.CONTENT_TYPE;
+        offset?: number;
     }
 ): Promise<types.illustration[]> => {
     try {
-        const res = (await axios({
+        const res = await axios({
             url: `${enums.API_BASE_URL}/v1/user/illusts`,
-            method: 'GET',
+            method: "GET",
             params: {
                 user_id: userID,
                 type: enums.CONTENT_TYPE[contentType],
                 offset: offset,
-                filter: enums.FILTER
+                filter: enums.FILTER,
             },
             headers: {
                 "User-Agent": enums.USER_AGENT,
-                "Authorization": `Bearer ${loginInfo.access_token}`,
-                "Accept-Language": enums.ACCEPT_LANGUAGE
-            }
-        }));
+                Authorization: `Bearer ${loginInfo.access_token}`,
+                "Accept-Language": enums.ACCEPT_LANGUAGE,
+            },
+        });
         let tmp = new Array<types.illustration>();
         for (let val of res.data.illusts) {
             tmp.push(common.illustToTypes(val));
@@ -43,4 +46,4 @@ export default async (
     } catch (err) {
         return Promise.reject(err);
     }
-}
+};

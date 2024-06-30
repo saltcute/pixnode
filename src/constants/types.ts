@@ -17,11 +17,7 @@ export namespace types {
         user: accountInformation;
     }
     export class userInformation {
-        constructor(
-            uid: number,
-            name: string,
-            account: string
-        ) {
+        constructor(uid: number, name: string, account: string) {
             this.uid = uid;
             this.name = name;
             this.account = account;
@@ -37,7 +33,7 @@ export namespace types {
             account: string,
             mail: string,
             is_premium: boolean,
-            x_restrict: number,
+            x_restrict: number
         ) {
             super(uid, name, account);
             this.mail = mail;
@@ -49,10 +45,7 @@ export namespace types {
         x_restrict: number;
     }
     export class tag {
-        constructor(
-            name: string,
-            translated_name: string
-        ) {
+        constructor(name: string, translated_name: string) {
             this.name = name;
             this.translated_name = translated_name;
         }
@@ -76,20 +69,20 @@ export namespace types {
             total_bookmarks: number,
             total_view: number,
             image_urls: {
-                large: string,
-                medium: string,
-                square_medium: string
+                large: string;
+                medium: string;
+                square_medium: string;
             },
             meta_single_page: {
-                original_image_url: string
+                original_image_url: string;
             },
             meta_pages: Array<{
                 image_urls: {
-                    square_meduim: string,
-                    medium: string,
-                    large: string,
-                    original: string
-                }
+                    square_meduim: string;
+                    medium: string;
+                    large: string;
+                    original: string;
+                };
             }>
         ) {
             this.id = id;
@@ -114,9 +107,9 @@ export namespace types {
         title: string;
         type: string;
         image_urls: {
-            large: string,
-            medium: string,
-            square_medium: string
+            large: string;
+            medium: string;
+            square_medium: string;
         };
         caption: string;
         restrict: number;
@@ -130,15 +123,15 @@ export namespace types {
         total_bookmarks: number;
         total_view: number;
         meta_single_page: {
-            original_image_url?: string
+            original_image_url?: string;
         };
         meta_pages: {
             image_urls: {
-                square_meduim: string,
-                medium: string,
-                large: string,
-                original: string
-            }
+                square_meduim: string;
+                medium: string;
+                large: string;
+                original: string;
+            };
         }[];
     }
     export class comment {
