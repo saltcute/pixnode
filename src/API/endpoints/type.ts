@@ -165,22 +165,13 @@ export interface IIllust {
     title: string;
     type: TIllustTypes;
     image_urls: {
-        square_medium: "https://i.pximg.net/c/360x360_70/img-master/img/2024/05/25/21/18/22/119043960_p0_square1200.jpg";
-        medium: "https://i.pximg.net/c/540x540_70/img-master/img/2024/05/25/21/18/22/119043960_p0_master1200.jpg";
-        large: "https://i.pximg.net/c/600x1200_90/img-master/img/2024/05/25/21/18/22/119043960_p0_master1200.jpg";
+        square_medium: string;
+        medium: string;
+        large: string;
     };
     caption: "";
     restrict: 0;
-    user: {
-        id: 705370;
-        name: "しらたま❄";
-        account: "shiratama_co";
-        profile_image_urls: {
-            medium: "https://i.pximg.net/user-profile/img/2020/09/27/22/22/40/19426449_fc8207c93157c6b48715fb160ff07e81_170.jpg";
-        };
-        is_followed: true;
-        is_access_blocking_user: false;
-    };
+    user: IUserProfile;
     tags: ITag[];
     tools: any[];
     /**
