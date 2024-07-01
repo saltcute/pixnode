@@ -36,17 +36,11 @@ export default class Auth extends Base {
             client: "pixiv-android",
         };
         console.log(
-            "Please copy the URL below to browser and proceed to login as you would usually do."
-        );
-        console.log(
-            `${this.requestor.API_BASE_URL}/web/v1/login?${new URLSearchParams(LOGIN_PARAMS).toString()}`
-        );
-        console.log(
-            "When you see a blank page page, press F12 or Ctrl + Shift + I (Command + Option + I on mac)"
-        );
-        console.log(`Switch to "Console" tab and you will see an error shows:`);
-        console.log(
-            `"Failed to launch 'pixiv://...' because the scheme does not have a registered handler"`
+            "Please copy the URL below to browser and proceed to login as you would usually do.\n" +
+                `${this.requestor.API_BASE_URL}/web/v1/login?${new URLSearchParams(LOGIN_PARAMS).toString()}\n` +
+                "When you see a blank page page, press F12 or Ctrl + Shift + I (Command + Option + I on mac)\n" +
+                `Switch to "Console" tab and you will see an error shows:\n` +
+                `"Failed to launch 'pixiv://...' because the scheme does not have a registered handler"`
         );
         let answer = "";
         while (true) {
@@ -62,10 +56,13 @@ export default class Auth extends Base {
                     answer.replace("pixiv://account/login", "")
                 ).get("code");
                 if (code) {
-                    const res = await this.login(code, codeVerifier).catch(
-                        () => null
+                    const res = await this.login(code, codeVerifier);
+                    if (this.isSuccessData(res)) return res;
+                    else console.error(res);
+                } else {
+                    console.log(
+                        `Code not found in the URL. Did you copy the entire URL?`
                     );
-                    if (res) return res;
                 }
             }
         }

@@ -1,4 +1,4 @@
-import axios, { AxiosInstance } from "axios";
+import axios, { AxiosInstance, toFormData } from "axios";
 import { IError, IOauthToken, TAcceptedLanguages } from "./endpoints/type";
 
 export class Requestor {
@@ -34,6 +34,7 @@ export class Requestor {
         this.axios = axios.create({
             baseURL: this.API_BASE_URL,
             headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
                 "User-Agent": this.USER_AGENT,
                 "Accept-Language": this.acceptedLanguage,
             },
@@ -43,15 +44,24 @@ export class Requestor {
         endpoint: string,
         params?: any
     ): Promise<T | IError> {
-        return this.axios.get(endpoint, { params });
+        return await this.axios
+            .get(endpoint, { params })
+            .then((res) => res.data)
+            .catch((e) => e.response.data);
     }
     public async post<T extends {}>(
         endpoint: string,
         data?: any
     ): Promise<T | IError> {
-        return this.axios.post(endpoint, { data });
+        return await this.axios
+            .post(endpoint, data)
+            .then((res) => res.data)
+            .catch((e) => e.response.data);
     }
-    public async auth(data?: any): Promise<IOauthToken> {
-        return this.axios.post(this.AUTH_URL, { data });
+    public async auth(data?: any): Promise<IOauthToken | IError> {
+        return await this.axios
+            .post(this.AUTH_URL, data)
+            .then((res) => res.data)
+            .catch((e) => e.response.data);
     }
 }
