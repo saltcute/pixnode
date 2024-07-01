@@ -17,13 +17,15 @@ export enum EIllustRating {
 }
 
 export default class Illust extends Base {
-    private _author?: User;
-    private _description?: string;
-    private _title?: string;
-    private _type?: EIllustType;
-    private _imageUrl?: string;
-    private _rating?: EIllustRating;
-    private _tags?: ITag[] = [];
+    private _author!: User;
+    private _description!: string;
+    private _title!: string;
+    private _type!: EIllustType;
+    private _imageUrls!: string[];
+    private _pageCount!: number;
+    private _thumbnail!: string;
+    private _rating!: EIllustRating;
+    private _tags!: ITag[];
 
     public async dedescription() {
         if (!this._description) await this.syncDetail();
@@ -37,9 +39,27 @@ export default class Illust extends Base {
         if (!this._type) await this.syncDetail();
         return this._type;
     }
-    public async imageUrl() {
-        if (!this._imageUrl) await this.syncDetail();
-        return this._imageUrl;
+    public async thumbnail() {
+        if (!this._thumbnail) await this.syncDetail();
+        return this._thumbnail;
+    }
+    public async pageCount() {
+        if (!this._pageCount) await this.syncDetail();
+        return this._pageCount;
+    }
+
+    public async imageUrl(): Promise<string[]>;
+    public async imageUrl(page: number): Promise<string>;
+    public async imageUrl(page?: number): Promise<string[] | string> {
+        if (!this._imageUrls) await this.syncDetail();
+        if (typeof page != "number") {
+            return this._imageUrls;
+        } else {
+            if (page < 0) page = 0;
+            if (page > this._imageUrls.length)
+                page = this._imageUrls.length - 1;
+            return this._imageUrls[page];
+        }
     }
     public async rating() {
         if (!this._rating) await this.syncDetail();
@@ -78,10 +98,21 @@ export default class Illust extends Base {
     private applyDetail(illust: IIllust) {
         this._description = illust.caption;
         this._title = illust.title;
-        this._imageUrl = illust.image_urls.medium;
         this._rating = illust.restrict;
         this._tags = illust.tags;
         this._author = User.fromProfile(this.parent, illust.user);
+
+        this._pageCount = illust.page_count;
+        this._thumbnail = illust.image_urls.large;
+
+        if (illust.page_count > 1) {
+            this._imageUrls = illust.meta_pages.map(
+                (page) => page.image_urls.original
+            );
+        } else {
+            if (illust.meta_single_page.original_image_url)
+                this._imageUrls = [illust.meta_single_page.original_image_url];
+        }
 
         switch (illust.type) {
             case "illust":

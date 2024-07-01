@@ -6,6 +6,12 @@ import User from "./objects/user";
 import upath from "upath";
 import fs from "fs";
 import { IAuthStorage } from "./type";
+import {
+    ITag,
+    TIllustRankingModes,
+    TIllustSearchModes,
+    TSortOptions,
+} from "./API/endpoints/type";
 
 export default class PixNode {
     private getLogger(...name: string[]) {
@@ -85,6 +91,52 @@ export default class PixNode {
     }
     public user(id: number) {
         return new User(this, id);
+    }
+
+    public async searchIllust(
+        tag: string,
+        sort: TSortOptions = "popular_desc",
+        mode: TIllustSearchModes = "partial_match_for_tags"
+    ) {
+        const res = await this.API.illust.search(tag, mode, sort, {
+            includeTranslatedTags: true,
+        });
+        if (this.API.isSuccessData(res)) {
+            return res.illusts.map((v) => Illust.fromDetail(this, v));
+        } else return [];
+    }
+    public async searchUser(name: string) {
+        const res = await this.API.user.search(name);
+        if (this.API.isSuccessData(res)) {
+            return res.user_previews.map((v) => User.fromProfile(this, v.user));
+        } else return [];
+    }
+
+    public async trendingTags(): Promise<
+        {
+            tag: ITag;
+            illust: Illust;
+        }[]
+    > {
+        const res = await this.API.tag.trending();
+        if (this.API.isSuccessData(res)) {
+            return res.trend_tags.map((v) => {
+                return {
+                    tag: {
+                        name: v.name,
+                        translated_name: v.translated_name,
+                    },
+                    illust: Illust.fromDetail(this, v.illust),
+                };
+            });
+        } else return [];
+    }
+
+    public async ranking(mode: TIllustRankingModes = "day") {
+        const res = await this.API.illust.ranking(mode);
+        if (this.API.isSuccessData(res)) {
+            return res.illusts.map((v) => Illust.fromDetail(this, v));
+        } else return [];
     }
 
     public static async create(refreshToken?: string): Promise<PixNode | null> {

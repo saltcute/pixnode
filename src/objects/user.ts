@@ -3,12 +3,12 @@ import Base from ".";
 import PixNode from "..";
 
 export default class User extends Base {
-    private _nickname?: string;
-    private _username?: string;
-    private _avatar?: string;
-    private _bio?: string;
-    private _isFollowing?: boolean;
-    private _isBlacklisted?: boolean;
+    private _nickname!: string;
+    private _username!: string;
+    private _avatar!: string;
+    private _bio!: string;
+    private _isFollowing!: boolean;
+    private _isBlacklisted!: boolean;
 
     public async nickname() {
         if (!this._nickname) await this.syncDetail();
@@ -38,6 +38,15 @@ export default class User extends Base {
     public async isBlacklisted() {
         if (!this._isBlacklisted) await this.syncDetail();
         return this._isBlacklisted;
+    }
+
+    public async following() {
+        const res = await this.parent.API.user.following(this.id);
+        if (this.parent.API.isSuccessData(res)) {
+            return res.user_previews.map((v) =>
+                User.fromProfile(this.parent, v.user)
+            );
+        } else return [];
     }
 
     private async syncDetail() {
