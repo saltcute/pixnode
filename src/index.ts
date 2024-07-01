@@ -1,13 +1,7 @@
-/**
- * Definition
- */
-export * from "./constants/enums";
-export * from "./constants/types";
+import { API } from "./API";
 
-/**
- * Methods
- */
-export * from "./methods/fetch";
-export * from "./methods/common";
-export * from "./methods/modify";
-export * from "./methods/authenticate";
+export default class PixNode {
+    public readonly API = new API();
+
+    constructor() {}
+}
