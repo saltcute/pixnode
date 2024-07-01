@@ -6,10 +6,4 @@ export abstract class Base {
     constructor(requestor: Requestor) {
         this.requestor = requestor;
     }
-
-    protected isSuccessData<T extends {} | IError>(
-        payload: T
-    ): payload is Exclude<T, IError> {
-        return !("error" in payload);
-    }
 }

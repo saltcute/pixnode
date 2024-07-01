@@ -28,6 +28,8 @@
   "homepage": "https://github.com/Hexona69/pix-node#readme",
   "dependencies": {
     "axios": "^1.7.2",
+    "bunyan": "^1.8.15",
+    "node-schedule": "^2.1.1",
     "prettier": "^3.3.2",
     "readline-sync": "^1.4.10",
     "rimraf": "^5.0.7",
@@ -36,7 +38,9 @@
     "typescript": "^5.5.2"
   },
   "devDependencies": {
+    "@types/bunyan": "^1.8.11",
     "@types/node": "^17.0.45",
+    "@types/node-schedule": "^2.1.7",
     "@types/readline-sync": "^1.4.4"
   }
 }

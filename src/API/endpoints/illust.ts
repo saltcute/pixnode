@@ -20,7 +20,7 @@ export default class Illust extends Base {
      * @param illustId Target illust id.
      * @returns Illust details.
      */
-    public async detail(illustId: string) {
+    public async detail(illustId: number) {
         return this.requestor.get<IIllustDetail>(`/v1/illust/detail`, {
             illust_id: illustId,
         });
@@ -31,7 +31,7 @@ export default class Illust extends Base {
      * @param illustId Target illust id.
      * @returns List of comments.
      */
-    public async comments(illustId: string) {
+    public async comments(illustId: number) {
         return this.requestor.get<IIllustComments>(`/v1/illust/comments`, {
             illust_id: illustId,
         });
@@ -125,7 +125,7 @@ export default class Illust extends Base {
         );
     }
 
-    public async related(illustId: string) {
+    public async related(illustId: number) {
         return this.requestor.get<IRelatedIllusts>(`/v2/illust/related`, {
             illust_id: illustId,
         });

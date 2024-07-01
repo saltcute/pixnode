@@ -2,7 +2,7 @@ import { Base } from ".";
 import { IBookmarkAdd, IBookmarkDelete, IError, TVisibility } from "./type";
 
 export default class Bookmark extends Base {
-    public async detail(illustId: string) {
+    public async detail(illustId: number) {
         return this.requestor.get<IBookmarkDelete>(
             "/v2/illust/bookmark/detail",
             {
@@ -11,7 +11,7 @@ export default class Bookmark extends Base {
         );
     }
     public async add(
-        illustId: string,
+        illustId: number,
         restrict: TVisibility = "public",
         tags: string[] = []
     ) {
@@ -21,7 +21,7 @@ export default class Bookmark extends Base {
             tags: tags.join(" "),
         });
     }
-    public async delete(illustId: string) {
+    public async delete(illustId: number) {
         return this.requestor.post<IBookmarkDelete>(
             "/v1/illust/bookmark/delete",
             {

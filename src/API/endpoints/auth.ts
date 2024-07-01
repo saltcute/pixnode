@@ -6,12 +6,23 @@ export default class Auth extends Base {
         return crypto.randomBytes(32).toString("base64url");
     }
 
+    public async login(code: string, codeVerifier: string) {
+        return await this.requestor.auth({
+            client_id: this.requestor.CLIENT_ID,
+            client_secret: this.requestor.CLIENT_SECRET,
+            code,
+            code_verifier: codeVerifier,
+            grant_type: "authorization_code",
+            include_policy: false,
+            redirect_uri: `${this.requestor.API_BASE_URL}/web/v1/users/auth/pixiv/callback`,
+        });
+    }
+
     public async loginCLI() {
-        let pullUpURL: string;
-        let code_verifier = this.getSecureToken();
-        let code_challenge = crypto
+        let codeVerifier = this.getSecureToken();
+        let codeChallenge = crypto
             .createHash("sha256")
-            .update(code_verifier)
+            .update(codeVerifier)
             .digest("base64")
             .split("/")
             .join("_")
@@ -20,7 +31,7 @@ export default class Auth extends Base {
             .split("=")
             .join("");
         let LOGIN_PARAMS = {
-            code_challenge: code_challenge,
+            code_challenge: codeChallenge,
             code_challenge_method: "S256",
             client: "pixiv-android",
         };
@@ -37,29 +48,27 @@ export default class Auth extends Base {
         console.log(
             `"Failed to launch 'pixiv://...' because the scheme does not have a registered handler"`
         );
+        let answer = "";
         while (true) {
-            pullUpURL = readlineSync.question(
+            answer = readlineSync.question(
                 `Copy the link starts with "pixiv://" and paste it here: `
             );
-            if (pullUpURL.search("pixiv://account/login") == -1) {
+            if (answer.search("pixiv://account/login") == -1) {
                 console.log(
-                    `The URL (${pullUpURL}) is not correct. Please try again.`
+                    `The URL (${answer}) is not correct. Please try again.`
                 );
-            } else break;
+            } else {
+                let code = new URLSearchParams(
+                    answer.replace("pixiv://account/login", "")
+                ).get("code");
+                if (code) {
+                    const res = await this.login(code, codeVerifier).catch(
+                        () => null
+                    );
+                    if (res) return res;
+                }
+            }
         }
-        let AUTH_CODE = new URLSearchParams(
-            pullUpURL.replace("pixiv://account/login", "")
-        ).get("code");
-
-        return await this.requestor.auth({
-            client_id: this.requestor.CLIENT_ID,
-            client_secret: this.requestor.CLIENT_SECRET,
-            code: AUTH_CODE,
-            code_verifier: code_verifier,
-            grant_type: "authorization_code",
-            include_policy: false,
-            redirect_uri: `${this.requestor.API_BASE_URL}/web/v1/users/auth/pixiv/callback`,
-        });
     }
 
     public async refresh(refreshToken: string) {

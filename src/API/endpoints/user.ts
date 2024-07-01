@@ -17,7 +17,7 @@ export default class User extends Base {
      * @param userId Target user id.
      * @returns Details of the user.
      */
-    public async detail(userId: string) {
+    public async detail(userId: number) {
         return this.requestor.get<IUserDetail>(`/v1/user/detail`, {
             user_id: userId,
         });
@@ -30,7 +30,7 @@ export default class User extends Base {
      * @param type Illust type.
      * @returns List of illusts.
      */
-    public async illusts(userId: string, offset?: number, type?: TIllustTypes) {
+    public async illusts(userId: number, offset?: number, type?: TIllustTypes) {
         return this.requestor.get<IUserIllusts>(`/v1/user/illusts`, {
             user_id: userId,
             offset,
@@ -46,7 +46,7 @@ export default class User extends Base {
      * @returns List of tags.
      */
     public async bookmarkTags(
-        userId: string,
+        userId: number,
         offset?: number,
         restrict: TVisibility = "public"
     ) {
@@ -70,7 +70,7 @@ export default class User extends Base {
      * @returns
      */
     public async bookmarkIllusts(
-        userId: string,
+        userId: number,
         offset?: number,
         limit?: number,
         tag?: string,
@@ -120,7 +120,7 @@ export default class User extends Base {
      * @returns List of following users.
      */
     public async following(
-        userId: string,
+        userId: number,
         offset?: number,
         restrict: TVisibility = "public"
     ) {
