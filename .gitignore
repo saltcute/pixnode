@@ -1,8 +1,8 @@
 node_modules/
-package-lock.json
 *.js
 test.ts
 test.js
 test/
 
+src/data/
 dist/
